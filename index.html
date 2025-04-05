@@ -10,19 +10,19 @@
 </head>
 <body>
     <div class="nav">
-        <a href="#">Home</a>
-        <a href="#">Income</a>
-        <a href="#">Expense</a>
+        <a href="#h">Home</a>
+        <a href="#i">Income</a>
+        <a href="#e">Expense</a>
     </div>
     <div class="container">
-    <div class="home">
+    <div class="home" id="h">
         <div class="amt">
-            <p>Add today's Expense :</p>
+            <p>Add Your Expense :</p>
             <input type="number"id="in"/>
         </div>
         
         <div class="tags">
-            <p>Choose a tag</p>
+            <p>Choose a Tag :</p>
             <div class="tag">
                 <button class="tagel">Food</button>
             <button class="tagel">Travel</button>
@@ -31,16 +31,16 @@
         </div>
         <button id="add">+Add</button>
     </div>
-    <div class="income">
-        <p>Add amount :</p>
+    <div class="income" id="i">
+        <p>Add Amount :</p>
             <input type="number"id="income"/>
             <button id="inBtn">+Add</button>
             <div class="historylist">
-                <h2>INCOME HISTORY</h2>
+                <p>INCOME HISTORY</p>
                 <div class="incList"></div>
             </div>
     </div>
-    <div class="expenses">
+    <div class="expenses" id="e">
         <div class="curr"></div>
         <div class="past"></div>
     </div>

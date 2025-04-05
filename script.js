@@ -35,6 +35,9 @@ addBtn.addEventListener("click",()=>{      //adds inputted expense to local stor
     localStorage.setItem("expenses",JSON.stringify(expenses));
 
     input.value="";
+    tags.forEach(tag=>{
+        tag.classList.remove("selected");
+    });
     displayExpense();
 });
 
@@ -64,14 +67,15 @@ function displayExpense(){
 
     currList.innerHTML='';
     currExpenses.forEach((expense,index)=>{
-        let li=document.createElement("li");
-        li.innerHTML=`${expense.date} : Rs.${expense.amount}  (${expense.tag})
-          <button onclick="deleteExpense(${index})">Delete</button>`;
+        let li=document.createElement("div");
+        li.classList.add("exDiv");
+        li.innerHTML=`<p>${expense.date} : Rs.${expense.amount}</p>  <p>(${expense.tag})
+        </p><button onclick="deleteExpense(${index})">Delete</button>`;
         currList.appendChild(li);
     });
     past.innerHTML='';
     for(let month in monthTotals){
-        let li=document.createElement("li");
+        let li=document.createElement("div");
         li.textContent=`${month} Total: Rs.${monthTotals[month]}`;
         past.appendChild(li);
     }
@@ -129,8 +133,9 @@ function displayIncome(){
     incList.innerHTML='';
 
     incomes.forEach((income,index)=>{
-        let li=document.createElement("li");
-        li.innerHTML=`Rs. ${income.amount}  ${income.date} 
+        let li=document.createElement("div");
+        li.classList.add("inDiv");
+        li.innerHTML=`<p>Rs. ${income.amount}</p> <p id="date">${income.date}</p>  
         <button onclick="deleteInc(${index})">Delete</button>`;
         incList.appendChild(li);
     });

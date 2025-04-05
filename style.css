@@ -2,48 +2,93 @@
     padding: 0;
     margin: 0;
     font-family: 'Lucida Sans', 'Lucida Sans Regular';
-    color: black;
+    color: #52b788;
     text-align: center;
+    scroll-behavior: smooth;
+    box-sizing: border-box;
+}
+body{
+    background-color: #e9f5ec;
 }
 .tag .selected{
-    background-color: black;
+    background-color: #52b788;
     color: white;
+}
+.inDiv, .exDiv{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    background-color: #95d5b2;
+    border-radius: 15px;
+    margin: 2%;
+    padding: 1%;
+    font-size: 3vh;
+}
+.inDiv p{
+    width: 11vw;
+    text-align: left;
+    padding: 1%;
+    color: #1b4332;
+}
+.exDiv p{
+    width: 20vw;
+    font-size: 2.5vh;
+    text-align: left;
+    padding: 1%;
+    color: #1b4332;
+}
+.inDiv #date{
+    font-size: 2vh;
 }
 .nav{
     display: flex;
     flex-direction:row ;
     height: 5vh;
     font-size: 3vh;
-    background-color: aqua;
+    background-color: #2d6a4f;
     justify-content: space-around;
     align-items: center;
     position: fixed;
     top: 0;
     width: 100vw;
 }
+.nav a{
+    color: white;
+    text-decoration: none;
+}
 .container{
     display: flex;
+    scroll-snap-type: x mandatory;
+    overflow-x: auto;
     width: 300vw;
     position: absolute; 
-     top: 5vh; 
+    top: 5vh; 
 }
 .home, .income, .expenses{
     width: 100vw;
-    height: 95vh;
+    height: 92vh;
+    overflow-y: auto;
+    scroll-snap-align: start;
     display: flex;
-    border: solid black 2px;
     flex-direction: column;
     justify-content: space-evenly;
     align-items: center;
+    background-color: #e9f5ec;
+    box-shadow: -4px 0 0 rgba(0, 0, 0, 0.05), 4px 0 0 rgba(0, 0, 0, 0.05);
     font-size: 4vh;
 }
-.home button, .income button{
-    background-color: brown;
+.home button, .income button, .expenses button{
+    background-color: #1b4332;
     color: white;
     height: 5vh;
     width: 10vw;
     border-radius: 2.5vh;
-    border: none;
+    border: none;  
+    font-size: 2vh;
+}
+#add{
+    height: 6vh;
 }
 .amt{
     height: 30%;
@@ -58,8 +103,14 @@
     width: 18vw;
     font-size: 4vh;
     padding: 1%;
-    border: solid black 2px;
-    
+    border-radius: 5px;
+    border: solid #1b4332 2px;
+    background-color: #e9f5ec; 
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 .tags{
     height: 30%;
@@ -73,7 +124,7 @@
     height: 5vh;
     width: 10vw;
     border-radius: 2.5vh;
-    background-color: white;
+    background-color: #e9f5ec;
     color: black;
     border: black solid 2px;
     font-size: 2vh;
@@ -89,4 +140,29 @@
 .historylist{
     width: 90%;
     height: 60%;
+    box-shadow: 0 2PX 6PX rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    padding: 2%;
+}
+.incList{
+    max-height: 90%;
+    overflow-y: auto;
+    scrollbar-width: none;
+}
+.curr{
+    width: 90%;
+    height: 95%;
+    box-shadow: 0 2px 6PX rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    margin: 1%;
+    flex: 1;
+    overflow-y: auto;
+    transition: flex 0.3s ease;
+    scrollbar-width: none;
+}
+.past{
+    max-height: 0;
+    overflow-y: auto;
+    overflow: hidden;
+    transition: max-height 0.5s ease;
 }
