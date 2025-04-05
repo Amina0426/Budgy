@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" href="icons/favicon.ico" type="image/x-icon">
+</head>
+<body>
+    <div class="nav">
+        <a href="#">Home</a>
+        <a href="#">Income</a>
+        <a href="#">Expense</a>
+    </div>
+    <div class="container">
+    <div class="home">
+        <div class="amt">
+            <p>Add today's Expense :</p>
+            <input type="number"id="in"/>
+        </div>
+        
+        <div class="tags">
+            <p>Choose a tag</p>
+            <div class="tag">
+                <button class="tagel">Food</button>
+            <button class="tagel">Travel</button>
+            <button id="tag2">+</button>
+            </div>
+        </div>
+        <button id="add">+Add</button>
+    </div>
+    <div class="income">
+        <p>Add amount :</p>
+            <input type="number"id="income"/>
+            <button id="inBtn">+Add</button>
+            <div class="historylist">
+                <h2>INCOME HISTORY</h2>
+                <div class="incList"></div>
+            </div>
+    </div>
+    <div class="expenses">
+        <div class="curr"></div>
+        <div class="past"></div>
+    </div>
+</div>
+    <script src="script.js"></script>  
+</body>
+</html>
