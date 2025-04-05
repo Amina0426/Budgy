@@ -1,7 +1,7 @@
 {
     "name": "Budgy.",
     "short_name": "Budgy.",
-    "start_url": ".",
+    "start_url": "/Budgy/index.html",
     "scope":".",
     "id": "/",
     "display": "standalone",
@@ -10,12 +10,12 @@
     "orientation": "portrait",
     "icons": [
         {
-            "src":"icons/icon-192x192.png",
+            "src":"/Budgy/icons/icon-192x192.png",
             "sizes":"192x192",
             "type":"image/png"
         },
         {
-            "src":"icons/icon-512x512.png",
+            "src":"/Budgy/icons/icon-512x512.png",
             "sizes":"512x512",
             "type":"image/png"
         }

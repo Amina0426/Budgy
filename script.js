@@ -151,7 +151,7 @@ displayIncome();
 
 if ("serviceWorker" in navigator) {
     window.addEventListener("load",()=>{
-        navigator.serviceWorker.register("./service-worker.js")
+        navigator.serviceWorker.register("/Budgy/service-worker.js",{scope:'/Budgy/'})
         .then(reg => {
             console.log("Service Worker Registered:",reg);
         })
