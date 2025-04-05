@@ -1,0 +1,2 @@
+# Budgy
+An expense tracker.
