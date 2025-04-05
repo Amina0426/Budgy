@@ -150,6 +150,13 @@ function deleteInc(index){
 displayIncome();
 
 if ("serviceWorker" in navigator) {
-    navigator.serviceWorker.register("service-worker.js")
-        .then(() => console.log("Service Worker Registered"));
+    window.addEventListener("load",()=>{
+        navigator.serviceWorker.register("./service-worker.js")
+        .then(reg => {
+            console.log("Service Worker Registered:",reg);
+        })
+        .catch(err => {
+            console.error("Service worker failed:",err);
+        });
+    });  
 }
