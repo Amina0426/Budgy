@@ -8,14 +8,15 @@ let addBtn=document.querySelector("#add");
 
 
 let selectedTag="";
-
+["click", "touchend"].forEach(e=>{
 tags.forEach(tag=>{
-    tag.addEventListener("click",()=>{
+    tag.addEventListener(e,()=>{
         console.log("clicked");
         selectedTag=tag.textContent;
         tags.forEach(btn=>btn.classList.remove("selected"));
         tag.classList.add("selected");
     });
+});
 });
 
 window.addEventListener("load",()=>{
