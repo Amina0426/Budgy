@@ -109,7 +109,6 @@ function displayExpense(){
     });
 
     currList.innerHTML='';
-    document.getElementById("dbg").textContent="curr Expenses: "+JSON.stringify(currExpenses,null,2);
     currExpenses.forEach((expense,index)=>{
         let li=document.createElement("div");
         li.classList.add("exDiv");
