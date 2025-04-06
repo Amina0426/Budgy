@@ -89,6 +89,7 @@ function displayExpense(){
     if(!currList||!past)return;
 
     let expenses= JSON.parse(localStorage.getItem("expenses"))||[];
+    document.getElementById("dbg").textContent+="\n\n All expenses: "+JSON.stringify(expenses,null,2);
 
     const curr = new Date().getMonth();
     const monthTotals = {};
@@ -108,6 +109,7 @@ function displayExpense(){
     });
 
     currList.innerHTML='';
+    document.getElementById("dbg").textContent="curr Expenses: "+JSON.stringify(currExpenses,null,2);
     currExpenses.forEach((expense,index)=>{
         let li=document.createElement("div");
         li.classList.add("exDiv");
