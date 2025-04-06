@@ -145,6 +145,7 @@ input::-webkit-inner-spin-button {
     color: #000080;
     border: #000080 solid 2px;
     font-size: 1rem;
+    cursor:pointer;
 }
 .historylist{
     width: 90%;
