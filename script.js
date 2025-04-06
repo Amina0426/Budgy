@@ -1,4 +1,6 @@
 const nav=document.querySelectorAll("a"); //nodelist
+const sections=document.querySelectorAll("#h,#e,#i"); //nodelist
+let box=document.querySelector(".container");
 let input=document.querySelector("#in");
 let tags=document.querySelectorAll(".tagel");  //nodelist
 let addTag=document.querySelector("#tag2");
@@ -13,6 +15,45 @@ tags.forEach(tag=>{
         selectedTag=tag.textContent;
         tags.forEach(btn=>btn.classList.remove("selected"));
         tag.classList.add("selected");
+    });
+});
+
+window.addEventListener("load",()=>{
+    nav.forEach((link)=>{
+        if(link.getAttribute("href")==="#h"){
+            link.classList.add("active");
+        }
+    });
+});
+nav.forEach((link)=>{
+    link.addEventListener("click",(e)=>{
+        e.preventDefault();
+        const targetId=link.getAttribute("href").substring(1);
+        const targetSec=document.getElementById(targetId);
+        if(targetSec){
+            targetSec.scrollIntoView({
+                behavior:"smooth",inline:"start"
+            });
+        }
+        nav.forEach((l)=>{
+            l.classList.remove("active");
+            link.classList.add("active");
+        });
+    });
+})
+box.addEventListener("scroll",()=>{
+    let curr="";
+    sections.forEach((sec)=>{
+        const secLeft=sec.offsetLeft;
+        if(box.scrollLeft>=secLeft-100){
+            curr=sec.getAttribute("id");
+        }
+    });
+    nav.forEach((link)=>{
+        link.classList.remove("active");
+        if(link.getAttribute("href").includes(curr)){
+            link.classList.add("active");
+        }
     });
 });
 
@@ -69,8 +110,8 @@ function displayExpense(){
     currExpenses.forEach((expense,index)=>{
         let li=document.createElement("div");
         li.classList.add("exDiv");
-        li.innerHTML=`<p>${expense.date} : Rs.${expense.amount}</p>  <p>(${expense.tag})
-        </p><button onclick="deleteExpense(${index})">Delete</button>`;
+        li.innerHTML=`<p> Rs.${expense.amount}</p> <p id="date">${expense.date}</p> <p id="t">(${expense.tag})
+        </p><button onclick="deleteExpense(${index})">&#x1F5D1;</button>`;
         currList.appendChild(li);
     });
     past.innerHTML='';
@@ -136,7 +177,7 @@ function displayIncome(){
         let li=document.createElement("div");
         li.classList.add("inDiv");
         li.innerHTML=`<p>Rs. ${income.amount}</p> <p id="date">${income.date}</p>  
-        <button onclick="deleteInc(${index})">Delete</button>`;
+        <button onclick="deleteInc(${index})">&#x1F5D1;</button>`;
         incList.appendChild(li);
     });
 }

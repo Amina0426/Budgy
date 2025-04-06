@@ -2,140 +2,149 @@
     padding: 0;
     margin: 0;
     font-family: 'Lucida Sans', 'Lucida Sans Regular';
-    color: #52b788;
+    color: #000080;
     text-align: center;
-    scroll-behavior: smooth;
     box-sizing: border-box;
 }
-body{
-    background-color: #e9f5ec;
-}
-.tag .selected{
-    background-color: #52b788;
-    color: white;
-}
-.inDiv, .exDiv{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-direction: row;
-    background-color: #95d5b2;
-    border-radius: 15px;
-    margin: 2%;
-    padding: 1%;
-    font-size: 3vh;
-}
-.inDiv p{
-    width: 11vw;
-    text-align: left;
-    padding: 1%;
-    color: #1b4332;
-}
-.exDiv p{
-    width: 20vw;
-    font-size: 2.5vh;
-    text-align: left;
-    padding: 1%;
-    color: #1b4332;
-}
-.inDiv #date{
-    font-size: 2vh;
+body,html{
+    background-color: #fffff0;
+    height: 100vh;
+    overflow: hidden;
 }
 .nav{
     display: flex;
     flex-direction:row ;
-    height: 5vh;
-    font-size: 3vh;
-    background-color: #2d6a4f;
     justify-content: space-around;
     align-items: center;
     position: fixed;
     top: 0;
+    left: 0;
+    z-index: 1000;
     width: 100vw;
+    height: 6vh;
+    font-size: 1.6rem;
+    background-color: #6495ed;
 }
 .nav a{
     color: white;
     text-decoration: none;
 }
-.container{
+.nav a.active{
+    background-color: #6495ed;
+   color: white;
+   text-shadow: 0 0 5px white,0 0 10px white;
+   text-decoration: underline white;
+}
+.tag .selected{
+    background-color: #e0f2f7;
+    color: #000080;
+}
+.inDiv, .exDiv{
     display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    background-color: #87ceeb;
+    border-radius: 15px;
+    margin: 2%;
+    padding: 1%;
+}
+.inDiv p,.exDiv p{
+    width: 40%;
+    font-size: 1.5rem;
+    padding: 1%;
+    color: #000080;
+}
+.inDiv #date, .exDiv #t, .exDiv #date{
+    font-size: 1rem;
+}
+.container{
+    position: absolute;
+    top: 6vh;
+    display: flex;
+    flex-direction: row;
     scroll-snap-type: x mandatory;
     overflow-x: auto;
-    width: 300vw;
-    position: absolute; 
-    top: 5vh; 
+    overflow-y: hidden;
+    width: 100vw;
+    height: 95vh;
+    scroll-behavior: smooth;
 }
 .home, .income, .expenses{
     width: 100vw;
-    height: 92vh;
+    height: 91vh;
+    margin-top: 1rem;
     overflow-y: auto;
     scroll-snap-align: start;
     display: flex;
+    flex-shrink: 0;
     flex-direction: column;
-    justify-content: space-evenly;
+    justify-content: center;
     align-items: center;
-    background-color: #e9f5ec;
+    background-color: #fffff0;
     box-shadow: -4px 0 0 rgba(0, 0, 0, 0.05), 4px 0 0 rgba(0, 0, 0, 0.05);
     font-size: 4vh;
 }
 .home button, .income button, .expenses button{
-    background-color: #1b4332;
+    background-color: #4682b4;
     color: white;
-    height: 5vh;
-    width: 10vw;
-    border-radius: 2.5vh;
+    height: 2rem;
+    width: 6rem;
+    margin: 1rem 0;
+    border-radius: 1.5rem;
     border: none;  
-    font-size: 2vh;
+    font-size: 1rem;
 }
 #add{
-    height: 6vh;
+    background-color: #6495ed;
+    height: 4rem;
+    width: 45%;
 }
-.amt{
+.amt,.tags{
     height: 30%;
-    width: 100%;
+    width: 90%;
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
+    justify-content: center;
     align-items: center;
+    box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.1);
+}
+.tags{
+    margin:15% 0;
 }
 .amt input, .income input{
-    height: 9vh;
-    width: 18vw;
+    height: 27%;
+    width: 45%;
     font-size: 4vh;
     padding: 1%;
+    margin-top: 1rem;
     border-radius: 5px;
-    border: solid #1b4332 2px;
-    background-color: #e9f5ec; 
+    border: solid #000080 2px;
+    background-color: #fffff0; 
 }
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
-.tags{
-    height: 30%;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    align-items: center;
-}
-.tag button{
-    height: 5vh;
-    width: 10vw;
-    border-radius: 2.5vh;
-    background-color: #e9f5ec;
-    color: black;
-    border: black solid 2px;
-    font-size: 2vh;
-}
 .tag{
     width: 100%;
     display: flex;
+    margin-top: 2rem;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    gap: 10rem;
+    gap: 5rem;
+}
+.tag button{
+    height: 65%;
+    width: max-content;
+    padding: 2%;
+    border-radius: 2.5vh;
+    background-color: #fffff0;
+    color: #000080;
+    border: #000080 solid 2px;
+    font-size: 1rem;
 }
 .historylist{
     width: 90%;
@@ -143,6 +152,7 @@ input::-webkit-inner-spin-button {
     box-shadow: 0 2PX 6PX rgba(0, 0, 0, 0.2);
     border-radius: 5px;
     padding: 2%;
+    margin-top: 3rem;
 }
 .incList{
     max-height: 90%;
@@ -150,7 +160,7 @@ input::-webkit-inner-spin-button {
     scrollbar-width: none;
 }
 .curr{
-    width: 90%;
+    width: 95%;
     height: 95%;
     box-shadow: 0 2px 6PX rgba(0, 0, 0, 0.2);
     border-radius: 5px;
@@ -166,3 +176,76 @@ input::-webkit-inner-spin-button {
     overflow: hidden;
     transition: max-height 0.5s ease;
 }
+.inDiv button,.exDiv button{
+    width:15%;
+    font-size: 2rem;
+    height: auto;
+}    
+@media screen and (max-width:376px){
+    .nav{
+        font-size: 1rem;
+    }
+    .home, .expenses,.income{
+        font-size: 1.5rem;
+    }
+    .amt input,.income input{
+        width: 35%;
+        font-size: 1.8rem;
+    }
+    .tag button{
+        font-size: 0.7rem;
+        height: 50%;
+    }
+    .inDiv p,.exDiv p{
+        font-size: 1.3rem;
+        width: 40%;
+        text-align: center;
+    }
+    .inDiv #date, .exDiv #t, .exDiv #date{
+        font-size: 0.7rem;
+    }
+    .inDiv button, .exDiv button{
+        font-size: 1rem;
+        height: 20%;
+    }
+    #add{
+        height: 3rem;
+    }
+}   
+@media screen and (min-width:768px){
+    .nav{
+        font-size: 2rem;
+        height: 7vh;
+    }
+    .home, .expenses,.income{
+        font-size: 2.5rem;
+    }
+    .amt input,.income input{
+        width: 35%;
+        font-size: 1.8rem;
+        margin-top: 2rem;
+    }
+    .income button{
+        height: 3rem;
+    }
+    .tag button{
+        font-size: 1.5rem;
+    }
+    .inDiv p,.exDiv p{
+        font-size: 2rem;
+        width: 40%;
+        text-align: center;
+    }
+    .inDiv #date, .exDiv #t, .exDiv #date{
+        font-size: 1.3rem;
+    }
+    .inDiv button, .exDiv button{
+        font-size: 2rem;
+    }
+    #add{
+        font-size: 2rem;
+        height: 5.5rem;
+        width: 35%;
+    }
+}
+
