@@ -68,7 +68,7 @@ addBtn.addEventListener("click",()=>{      //adds inputted expense to local stor
     const expense={  //creating object
         amount:amount,
         tag:selectedTag,
-        date:new Date().toLocaleDateString()
+        date:new Date().toISOString()
     };
 
     //saving to localStorage
@@ -113,7 +113,9 @@ function displayExpense(){
     currExpenses.forEach((expense,index)=>{
         let li=document.createElement("div");
         li.classList.add("exDiv");
-        li.innerHTML=`<p> Rs.${expense.amount}</p> <p id="date">${expense.date}</p> <p id="t">(${expense.tag})
+        li.innerHTML=`<p> Rs.${expense.amount}</p> 
+        <p id="date">${formatDate(expense.date)}</p>
+         <p id="t">(${expense.tag})
         </p><button onclick="deleteExpense(${index})">&#x1F5D1;</button>`;
         currList.appendChild(li);
     });
@@ -124,7 +126,13 @@ function displayExpense(){
         past.appendChild(li);
     }
 }
-
+function formatDate(iso){
+    const d=new Date(iso);
+    const day=String(d.getDate()).padStart(2,'0');
+    const month=String(d.getMonth()+1).padStart(2,'0');
+    const year=d.getFullYear();
+    return `${day}/${month}/${year}`;
+}
 function deleteExpense(index){
     let expenses=JSON.parse(localStorage.getItem("expenses"))||[];
     const curr=new Date().getMonth();
