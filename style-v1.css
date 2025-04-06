@@ -245,7 +245,10 @@ input::-webkit-inner-spin-button {
     #add{
         font-size: 2rem;
         height: 5.5rem;
-        width: 35%;
+        width: 25%;
+    }
+    .tags{
+        margin: auto;
     }
 }
 
