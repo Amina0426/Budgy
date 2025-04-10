@@ -19,7 +19,7 @@ body,html{
     position: fixed;
     top: 0;
     left: 0;
-    z-index: 1000;
+    z-index: 999;
     width: 100vw;
     height: 6vh;
     font-size: 1.6rem;
@@ -35,28 +35,52 @@ body,html{
    text-shadow: 0 0 5px white,0 0 10px white;
    text-decoration: underline white;
 }
+#overlay1{
+    height: 100vh;
+    width: 100vw;
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+}
+.exForm{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #fffff0;
+    height: 100%;
+    width: 100%;
+    gap: 1rem;
+}
+.exForm .close{
+    display: block;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background-color: #6495ed;
+    height: 5%;
+    text-align: right;
+    padding: 1% 2% 1% 1%;
+}
+.success-popup{
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #000080;
+    color: #e0f2f7;
+    padding: 12px 20px;
+    border-radius: 10px;
+    z-index: 10000;
+    opacity: 0.5;
+    font-size: 1rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
 .tag .selected{
     background-color: #e0f2f7;
     color: #000080;
-}
-.inDiv, .exDiv{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: row;
-    background-color: #87ceeb;
-    border-radius: 15px;
-    margin: 2%;
-    padding: 1%;
-}
-.inDiv p,.exDiv p{
-    width: 40%;
-    font-size: 1.5rem;
-    padding: 1%;
-    color: #000080;
-}
-.inDiv #date, .exDiv #t, .exDiv #date{
-    font-size: 1rem;
 }
 .container{
     position: absolute;
@@ -83,7 +107,7 @@ body,html{
     align-items: center;
     background-color: #fffff0;
     box-shadow: -4px 0 0 rgba(0, 0, 0, 0.05), 4px 0 0 rgba(0, 0, 0, 0.05);
-    font-size: 4vh;
+    font-size: 2rem;
 }
 .home button, .income button, .expenses button{
     background-color: #4682b4;
@@ -109,18 +133,62 @@ body,html{
     align-items: center;
     box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.1);
 }
-.tags{
+.tag{
     margin:15% 0;
 }
-.amt input, .income input{
+.home .add{
+    width: max-content;
+    padding: 1%;
+    font-size: 2rem;
+    height: 4rem;
+}
+.home .display{
+    height: 60%;
+    width: 85%;
+    margin-top: 15%;
+    border: solid;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+}
+.barRow,.balance{
+    display: flex;
+    flex-direction: column;
+    height: 25%;
+    width: 90%;
+    font-size: 1.5rem;
+    padding: 1%;
+    justify-content: center;
+    gap: 1rem;
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
+}
+.bar{
+    height: 33%;
+    width: 90%;
+    background-color: #6495ed;
+    margin: 0 1rem;
+    border-radius: 10px;
+}
+.inc-bar,.ex-bar{
+    height: 100%;
+    background-color: #000080;
+    border-radius: 10px;
+}
+.amt input, .income input, #tagInput{
     height: 27%;
     width: 45%;
-    font-size: 4vh;
+    font-size: 2.5rem;
     padding: 1%;
     margin-top: 1rem;
     border-radius: 5px;
     border: solid #000080 2px;
     background-color: #fffff0; 
+}
+#tagInput{
+    visibility: hidden;
+    font-size: 1rem;
 }
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
@@ -134,11 +202,12 @@ input::-webkit-inner-spin-button {
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    gap: 5rem;
+    gap: 0.5rem;
+    flex-wrap: wrap;
 }
 .tag button{
-    height: 65%;
-    width: max-content;
+    height: 30%;
+    width: 30%;
     padding: 2%;
     border-radius: 2.5vh;
     background-color: #fffff0;
@@ -146,6 +215,57 @@ input::-webkit-inner-spin-button {
     border: #000080 solid 2px;
     font-size: 1rem;
     cursor:pointer;
+}
+.inDiv, .exDiv{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    background-color: #87ceeb;
+    border-radius: 15px;
+    margin: 2%;
+    padding: 1%;
+}
+.inDiv p,.exDiv p{
+    width: 40%;
+    font-size: 1.5rem;
+    padding: 1%;
+    color: #000080;
+    text-align: left;
+}
+.inDiv #date, .exDiv #t, .exDiv #date{
+    font-size: 1rem;
+    text-align: center;
+}
+.menu{
+    cursor: pointer;
+    width: 2rem;
+    height: 2rem;
+}
+.dd {
+    position: absolute;
+    height: 3.5rem;
+    width: 5rem;
+    top: 90%;
+    right: 5%;
+    background-color: #e0f2f7;
+    border-radius: 5px;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    box-shadow:0 2px 8px rgba(0, 0, 0, 0.05) ;
+}
+.inDiv .dd button,.exDiv .dd button{
+    background: none;
+    cursor: pointer;
+    width: 100%;
+    color: #000080;
+    margin: 0.3rem;
+    font-size: 1rem;
+}
+.hidden{
+    display: none
 }
 .historylist{
     width: 90%;
@@ -156,7 +276,7 @@ input::-webkit-inner-spin-button {
     margin-top: 3rem;
 }
 .incList{
-    max-height: 90%;
+    height: 90%;
     overflow-y: auto;
     scrollbar-width: none;
 }
@@ -195,7 +315,9 @@ input::-webkit-inner-spin-button {
     }
     .tag button{
         font-size: 0.7rem;
-        height: 50%;
+    }
+    .tag{
+        margin: 0;
     }
     .inDiv p,.exDiv p{
         font-size: 1.3rem;
@@ -212,6 +334,17 @@ input::-webkit-inner-spin-button {
     #add{
         height: 3rem;
     }
+    .barRow,.balance{
+        gap: 0;
+        justify-content: space-around;
+    }
+    .bar{
+        height: 20%;
+    }
+    .home .add{
+        width: 90%;
+        font-size: 1.5rem;
+    }
 }   
 @media screen and (min-width:768px){
     .nav{
@@ -223,8 +356,12 @@ input::-webkit-inner-spin-button {
     }
     .amt input,.income input{
         width: 35%;
-        font-size: 1.8rem;
+        font-size: 3.8rem;
         margin-top: 2rem;
+    }
+    #tagInput{
+        width: 50%;
+        font-size: 2.5rem;
     }
     .income button{
         height: 3rem;
@@ -234,7 +371,7 @@ input::-webkit-inner-spin-button {
     }
     .inDiv p,.exDiv p{
         font-size: 2rem;
-        width: 40%;
+        width: 30%;
         text-align: center;
     }
     .inDiv #date, .exDiv #t, .exDiv #date{
@@ -250,6 +387,14 @@ input::-webkit-inner-spin-button {
     }
     .tags{
         margin: auto;
+    }
+    .barRow,.balance{
+        flex-direction: row;
+        align-items: center;
+    }
+    .menu{
+        height: 3rem;
+        width: 3rem;
     }
 }
 

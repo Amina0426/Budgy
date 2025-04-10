@@ -16,23 +16,51 @@
         <a href="#i">Income</a>
         <a href="#e">Expense</a>
     </div>
+   
     <div class="container">
     <div class="home" id="h">
-        <div class="amt">
-            <p>Add Your Expense :</p>
-            <input type="number"id="in"/>
-        </div>
-        
-        <div class="tags">
-            <p>Choose a Tag :</p>
-            <div class="tag">
-                <button class="tagel">Food</button>
-            <button class="tagel">Travel</button>
-            <button id="tag2">+</button>
+        <button class="add">Add today's expenses-></button>
+        <div id="overlay1">
+            <div class="exForm">
+                <div class="close">
+                    <span id="close">&times;</span>
+                </div>
+                <div class="amt">
+                    <p>Add Your Expense :</p>
+                    <input type="number"id="in"/>
+                </div>
+                <div class="tags">
+                    <p>Choose a Tag :</p>
+                    <div class="tag">
+                    <button class="tagel">Food</button>
+                    <button class="tagel">Travel</button>
+                    <button id="tag2">+</button>
+                    <input type="text" id="tagInput" placeholder="Enter custom tag">
+                    </div>
+                </div>
+                    <button id="add">+Add</button>
             </div>
         </div>
-        <button id="add">+Add</button>
+        <div class="display">
+            <span>SUMMARY</span>
+            <div class="barRow" id="incBar">
+                <span class="label">Income</span>
+                <div class="bar">
+                    <div class="inc-bar" style="width:100%"></div>
+                </div>
+                <span id="inMon"></span>
+            </div>
+            <div class="barRow" id="exBar">
+                <div class="label">Expense</div>
+                <div class="bar">
+                    <div class="ex-bar"></div>
+                </div>
+                <span id="exMon"></span>
+            </div>
+            <div class="balance">Balance</div>
+        </div>    
     </div>
+
     <div class="income" id="i">
         <div class="amt">
             <p>Add Amount :</p>

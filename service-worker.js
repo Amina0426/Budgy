@@ -31,15 +31,16 @@ self.addEventListener("activate",event=>{
 });
 
 self.addEventListener("fetch", event => {
+    if(event.request.method !== "GET")return;
     event.respondWith(
         fetch(event.request).then(networkResponse => {
-            if(event.request.method==="GET"){
+            const responseClone=networkResponse.clone();
+
                 caches.open(CACHE_NAME).then(cache => {
-                    cache.put(event.request,networkResponse.clone());
+                    cache.put(event.request,responseClone);
         });
-            }
-                return networkResponse;
-        })
+        return networkResponse;
+    })
         .catch(()=>
             caches.match(event.request)
                .then(response=>response||caches.match("./index.html"))
