@@ -217,10 +217,9 @@ window.addEventListener("storage",(e)=>{
 });
 function addIncome(){
     let incIn=document.querySelector("#income");
-let incAdd=document.querySelector("#inBtn");
+    let incAdd=document.querySelector("#inBtn");
 
-
-incAdd.addEventListener("click",()=>{
+    incAdd.addEventListener("click",()=>{
         let amt=incIn.value;
         if(amt<=0){
             alert("enter valid amount");
@@ -236,6 +235,7 @@ incAdd.addEventListener("click",()=>{
 
         incIn.value="";
         displayIncome();
+        track();
     });
 
 }
@@ -288,18 +288,29 @@ function track(){
     document.querySelector(".ex-bar").style.width=`${exPercent}%`;
 }
 function edit(type,index){
-    let data = JSON.parse(localStorage.getItem(type==='expenses'?'expenses':'incomes'))||[];
+    let data;
+    try{
+    data = JSON.parse(localStorage.getItem(type==='expenses'?'expenses':'incomes'))||[];
+    if(!Array.isArray(data)) throw new Error();
+    }catch{
+        data=[];
+    }
 
     const item=data[index];
     if(!item){
         return;
     }
     const newAmt=prompt("Enter new amount:",item.amount);
-    if(newAmt===null||isNaN(newAmt)||newAmt.trim()==="")return;
-    
-    data[index].amount=Number(newAmt);
-    localStorage.setItem(type==='expenses'?'expenses':'incomes',JSON.stringify(data));
+    if(newAmt===null||isNaN(Number(newAmt))||newAmt.trim()==="")return;
 
+    data[index].amount=Number(newAmt);
+
+    if(type==='expenses'){
+        let newTag=prompt("Enter new tag",item.tag);
+        if(newTag===null||newTag.trim()==="")return;
+        data[index].tag=newTag.trim();
+    }
+    localStorage.setItem(type==='expenses'?'expenses':'incomes',JSON.stringify(data));
     if(type==='expenses'){
         displayExpense();
     }else{

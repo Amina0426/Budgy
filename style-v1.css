@@ -137,10 +137,10 @@ body,html{
     margin:15% 0;
 }
 .home .add{
-    width: max-content;
+    width: 80%;
     padding: 1%;
-    font-size: 2rem;
-    height: 4rem;
+    font-size: 1.6rem;
+    height: 10%;
 }
 .home .display{
     height: 60%;
@@ -223,9 +223,13 @@ input::-webkit-inner-spin-button {
     align-items: center;
     flex-direction: row;
     background-color: #87ceeb;
-    border-radius: 15px;
-    margin: 2%;
-    padding: 1%;
+    border-radius: 5px;
+    margin: 0.5rem;
+    padding: 0.2rem;
+    height: 15%;
+}
+.exDiv{
+    height: 9%;
 }
 .inDiv p,.exDiv p{
     width: 40%;
@@ -334,16 +338,18 @@ input::-webkit-inner-spin-button {
     #add{
         height: 3rem;
     }
+    .home .add{
+        width: 80%;
+        padding: 1%;
+        font-size: 1.4rem;
+        height: 10%;
+    }
     .barRow,.balance{
         gap: 0;
         justify-content: space-around;
     }
     .bar{
         height: 20%;
-    }
-    .home .add{
-        width: 90%;
-        font-size: 1.5rem;
     }
 }   
 @media screen and (min-width:768px){
@@ -384,6 +390,12 @@ input::-webkit-inner-spin-button {
         font-size: 2rem;
         height: 5.5rem;
         width: 25%;
+    }
+    .home .add{
+        width: 80%;
+        padding: 1%;
+        font-size: 2rem;
+        height: 10%;
     }
     .tags{
         margin: auto;
