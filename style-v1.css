@@ -249,8 +249,8 @@ input::-webkit-inner-spin-button {
 }
 .dd {
     position: absolute;
-    height: 3.5rem;
-    width: 5rem;
+    height: 5.5rem;
+    width: 6rem;
     top: 90%;
     right: 5%;
     background-color: #e0f2f7;
@@ -270,6 +270,10 @@ input::-webkit-inner-spin-button {
 }
 .hidden{
     display: none
+}
+.bill{
+    max-width: 10%;
+    margin-top: 5px;
 }
 .historylist{
     width: 90%;

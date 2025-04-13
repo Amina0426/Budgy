@@ -166,10 +166,13 @@ function displayExpense(){
         li.innerHTML=`<p> Rs.${expense.amount}</p> 
         <p id="date">${formatDate(expense.date)}</p>
          <p id="t">(${expense.tag})</p>
+         ${expense.img ? `<img src="${expense.img}" class="bill-img"
+            style="width:10%;height:50%;margin-top:5px">`:''}
          <div class="menu">&#x22EE;</div>
          <div class="dd hidden">
          <button onclick="edit('expenses',${index})">Edit</button>
          <button onclick="deleteExpense(${index})">Delete</button>
+         <button onclick="addPic(${index})">Add Bill</button>
          </div>`;
         currList.appendChild(li);
     });
@@ -317,6 +320,45 @@ function edit(type,index){
         displayIncome();
     }
 }
+function addPic(index){
+let input=document.createElement("input");
+input.type="file";
+input.accept="image/*";
+input.capture="environment";
+    input.onchange=()=>{
+        const file=input.files[0];
+    
+        if(file){
+            const reader=new FileReader();
+            reader.onload=(e)=>{
+                const expenses=JSON.parse(localStorage.getItem("expenses"))||[];
+                expenses[index].img=e.target.result;
+                localStorage.setItem("expenses",JSON.stringify(expenses));
+                displayExpense();
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+    input.click();
+}
+const fullImageView = document.getElementById("fullImageView");
+const fullImg = document.getElementById("fullImg");
+
+document.addEventListener("click", (e) => {
+    if (e.target.classList.contains("bill-img")) {
+        fullImg.src = e.target.src;
+        fullImageView.style.display = "flex";
+        history.pushState({ imgOpen: true }, ""); // push state so back button works
+    }
+});
+fullImageView.addEventListener("click", () => {
+    fullImageView.style.display = "none";
+    history.back(); // simulates pressing back
+});
+
+window.addEventListener("popstate", () => {
+    fullImageView.style.display = "none";
+});
 
 if ("serviceWorker" in navigator) {
     window.addEventListener("load",()=>{
