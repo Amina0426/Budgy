@@ -19,15 +19,15 @@
    
     <div class="container">
     <div class="home" id="h">
-        <button class="add">Add today's expenses-></button>
+        <button class="add">Tap to ADD your Spend</button>
         <div id="overlay1">
             <div class="exForm">
                 <div class="close">
-                    <span id="close">&times;</span>
+                    <span class="close">&#10006;;</span>
                 </div>
                 <div class="amt">
                     <p>Add Your Expense :</p>
-                    <input type="number"id="in"/>
+                    <input type="number"id="in" autofocus/>
                 </div>
                 <div class="tags">
                     <p>Choose a Tag :</p>
@@ -62,13 +62,13 @@
     </div>
 
     <div class="income" id="i">
-        <div class="amt">
+        <div class="amt" id="inAmt">
             <p>Add Amount :</p>
             <input type="number"id="income"/>
             <button id="inBtn">+Add</button>
         </div>
             <div class="historylist">
-                <p>INCOME HISTORY</p>
+                <p style="height: 10%;">INCOME HISTORY</p>
                 <div class="incList"></div>
             </div>
     </div>
@@ -78,8 +78,26 @@
     </div>
 </div>
 
-<div id="fullImageView" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:#87ceeb; justify-content:center; align-items:center; z-index:9999;">
+<div id="fullImageView" style="display:none; position:fixed; top:0; left:0;
+ width:100vw; height:100vh; background:#87ceeb; justify-content:center;
+  align-items:center; z-index:9999;">
+    <button id="delImg" style="position: absolute; top: 15px;
+    right: 15px; background-color: red; color: white; z-index: 10001;
+    height: 3rem;width: 3rem;font-size: 1.8rem; " 
+    onclick="delImg()">
+    &#x1F5D1; </button>
     <img id="fullImg" src="" style="max-width:100%; max-height:100%;">
+</div>
+<div id="set" onclick="openSetModal()">&#9881;</div>
+<div id="set-modal">
+    <div class="set-page">
+        <span class="close" onclick="closeModal()">&#10060;</span>
+        <p style="position: absolute;top: 8%;left: 30%;font-size: 3rem;">Settings</p>
+        <label style="position: absolute;top: 20%;left: 5%;">
+            <input type="checkbox" id="mode" onchange="toggleMode()"/>
+            Dark Mode
+        </label>
+    </div>
 </div>
     <script src="script.js"></script>  
 </body>

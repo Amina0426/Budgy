@@ -20,6 +20,7 @@ function initiaLoad(){
     addIncome();
     displayIncome();
     track();
+    viewImg();
 }
 window.addEventListener("load",initiaLoad);
 document.addEventListener("click", closeAllDropdowns);
@@ -86,19 +87,17 @@ function home(){
     homeBtn.addEventListener("click",()=>{
         exForm.style.display="block";
     });
-    document.querySelector("#close").addEventListener("click",()=>{
+    document.querySelector(".close").addEventListener("click",()=>{
         exForm.style.display="none";
-        popMssg();
     });
     addBtn.addEventListener("click",()=>{
         exForm.style.display="none";
-        popMssg();
     })
 }
-function popMssg(){
+function popMssg(text){
     const mssg=document.createElement("div");
     mssg.classList.add("success-popup");
-    mssg.innerText="Expense Page Closed Successfully!";
+    mssg.innerText=text;
     document.body.appendChild(mssg);
 
     setTimeout(()=>{
@@ -133,6 +132,7 @@ function addExpenses(){
             tag.classList.remove("selected");
         });
         displayExpense();
+        popMssg(`Rs.${expense.amount} - ${expense.tag} added!`);
         track();
         document.querySelector("#tagInput").style.visibility="hidden";
     });    
@@ -166,8 +166,7 @@ function displayExpense(){
         li.innerHTML=`<p> Rs.${expense.amount}</p> 
         <p id="date">${formatDate(expense.date)}</p>
          <p id="t">(${expense.tag})</p>
-         ${expense.img ? `<img src="${expense.img}" class="bill-img"
-            style="width:10%;height:50%;margin-top:5px">`:''}
+         ${expense.img ? `<img src="${expense.img}" class="bill-img">`:''}
          <div class="menu">&#x22EE;</div>
          <div class="dd hidden">
          <button onclick="edit('expenses',${index})">Edit</button>
@@ -341,23 +340,74 @@ input.capture="environment";
     };
     input.click();
 }
-const fullImageView = document.getElementById("fullImageView");
-const fullImg = document.getElementById("fullImg");
+function viewImg(){
+    const fullImageView = document.getElementById("fullImageView");
+    const fullImg = document.getElementById("fullImg");
 
-document.addEventListener("click", (e) => {
-    if (e.target.classList.contains("bill-img")) {
-        fullImg.src = e.target.src;
-        fullImageView.style.display = "flex";
-        history.pushState({ imgOpen: true }, ""); // push state so back button works
+    document.addEventListener("click", (e) => {
+        if (e.target.classList.contains("bill-img")) {
+            fullImg.src = e.target.src;
+            fullImageView.style.display = "flex";
+            history.pushState({ imgOpen: true }, ""); // push state so back button works
+        }
+    });
+    fullImageView.addEventListener("click", () => {
+        fullImageView.style.display = "none";
+        history.back(); // simulates pressing back
+    });
+
+    window.addEventListener("popstate", () => {
+        fullImageView.style.display = "none";
+    });
+}
+function delImg(){
+    const imgSrc=fullImg.src;
+    let expenses=JSON.parse(localStorage.getItem("expenses"))||[];
+    const index=expenses.findIndex(exp=>exp.img===imgSrc);
+    if(index===-1)return;
+    const backupImg=expenses[index].img;
+    expenses[index].img=null;
+    localStorage.setItem("expenses",JSON.stringify(expenses));
+    displayExpense();
+
+    fullImageView.style.display="none";
+
+    const undo=document.createElement("div");
+    undo.classList.add("success-popup");
+    undo.style.opacity="0.8";
+    undo.innerText="undo image?";
+    document.body.appendChild(undo);
+
+    setTimeout(()=>{
+        undo.remove();
+    },10000);
+
+    undo.addEventListener("click",()=>{
+        let imgUndone=JSON.parse(localStorage.getItem("expenses"))||[];
+        if(imgUndone[index]){
+            imgUndone[index].img=backupImg;
+            localStorage.setItem("expenses",JSON.stringify(imgUndone));
+            displayExpense();
+        }
+        undo.style.display="none";
+    })
+}
+function openSetModal(){
+    document.getElementById("set-modal").style.display="block";
+    document.getElementById("mode").checked=document.body.classList.contains("dark");
+}
+function closeModal(){
+    document.getElementById("set-modal").style.display="none";
+}
+function toggleMode(){
+    document.body.classList.toggle("dark");
+    const theme=document.body.classList.contains("dark")?"dark":"light";
+    localStorage.setItem("theme",theme);
+}
+window.addEventListener("DOMContentLoaded",()=>{
+    if(localStorage.getItem("theme")==="dark"){
+        document.body.classList.add("dark");
     }
-});
-fullImageView.addEventListener("click", () => {
-    fullImageView.style.display = "none";
-    history.back(); // simulates pressing back
-});
-
-window.addEventListener("popstate", () => {
-    fullImageView.style.display = "none";
 });
 
 if ("serviceWorker" in navigator) {

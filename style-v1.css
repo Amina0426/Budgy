@@ -1,8 +1,7 @@
 *{
     padding: 0;
     margin: 0;
-    font-family: 'Lucida Sans', 'Lucida Sans Regular';
-    color: #000080;
+    font-family: Poppins,Inter,Rubik;
     text-align: center;
     box-sizing: border-box;
 }
@@ -35,7 +34,19 @@ body,html{
    text-shadow: 0 0 5px white,0 0 10px white;
    text-decoration: underline white;
 }
-#overlay1{
+#set{
+    position: fixed;
+    height: 4rem;
+    width: 4rem;
+    background-color: #23b0c8;
+    border-radius: 50%;
+    z-index: 1000;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    bottom: 2rem;
+    right: 1rem;
+    font-size: 3rem;
+}
+#overlay1,#set-modal{
     height: 100vh;
     width: 100vw;
     display: none;
@@ -44,6 +55,30 @@ body,html{
     left: 0;
     z-index: 9999;
 }
+.set-page{
+    background-color: white;
+    color: #000080;
+    text-align: center;
+    font-size: 2rem;
+    height: 100%;
+    align-content: center;
+}
+.set-page input{
+    height: 1.5rem;
+    width: 1.5rem;
+    background-color: #000080;
+    color: white;
+}
+body.dark .set-page,body.dark .container,body.dark .home,
+body.dark .expenses,body.dark .income,body.dark .exForm{
+    background-color: #000080;
+    color: white;
+}
+body.dark .display,body.dark .home.add,body.dark input,body.dark button{
+    background-color:#87ceeb;
+    color: #000080;
+}
+
 .exForm{
     display: flex;
     flex-direction: column;
@@ -52,9 +87,9 @@ body,html{
     background-color: #fffff0;
     height: 100%;
     width: 100%;
-    gap: 1rem;
+    gap: 2rem;
 }
-.exForm .close{
+.close{
     display: block;
     position: fixed;
     top: 0;
@@ -74,7 +109,7 @@ body,html{
     padding: 12px 20px;
     border-radius: 10px;
     z-index: 10000;
-    opacity: 0.5;
+    opacity: 0.7;
     font-size: 1rem;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
@@ -109,12 +144,9 @@ body,html{
     box-shadow: -4px 0 0 rgba(0, 0, 0, 0.05), 4px 0 0 rgba(0, 0, 0, 0.05);
     font-size: 2rem;
 }
-.home button, .income button, .expenses button{
+button{
     background-color: #4682b4;
     color: white;
-    height: 2rem;
-    width: 6rem;
-    margin: 1rem 0;
     border-radius: 1.5rem;
     border: none;  
     font-size: 1rem;
@@ -124,8 +156,14 @@ body,html{
     height: 4rem;
     width: 45%;
 }
+#inBtn{
+    height: 2rem;
+    width: 5rem;
+    margin-top: 1rem;
+}
 .amt,.tags{
-    height: 30%;
+    position: relative;
+    height: 25%;
     width: 90%;
     display: flex;
     flex-direction: column;
@@ -133,8 +171,12 @@ body,html{
     align-items: center;
     box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.1);
 }
-.tag{
-    margin:15% 0;
+.tags{
+    height: 35%;
+}
+.amt p,.tags p{
+    position: absolute;
+    top: 15%;
 }
 .home .add{
     width: 80%;
@@ -216,20 +258,32 @@ input::-webkit-inner-spin-button {
     font-size: 1rem;
     cursor:pointer;
 }
+.tagel:hover{
+    background-color: #87ceeb;
+    transform: scale(1.25);
+}
+#inAmt p{
+    top: 2%;
+}
 .inDiv, .exDiv{
     position: relative;
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
-    align-items: center;
-    flex-direction: row;
+    align-content: flex-start;
+    flex-direction: column;
     background-color: #87ceeb;
     border-radius: 5px;
-    margin: 0.5rem;
+    margin: 2%;
     padding: 0.2rem;
     height: 15%;
+    width: 46%;
 }
-.exDiv{
-    height: 9%;
+.inDiv{
+    flex-direction: row;
+    height: 15%;
+    width: 95%;
+    align-content: center;
 }
 .inDiv p,.exDiv p{
     width: 40%;
@@ -246,19 +300,29 @@ input::-webkit-inner-spin-button {
     cursor: pointer;
     width: 2rem;
     height: 2rem;
+    position: absolute;
+    right: 0%;
+    top: 5%;
+}
+.inDiv .menu{
+    top: 20%;
 }
 .dd {
     position: absolute;
     height: 5.5rem;
     width: 6rem;
-    top: 90%;
-    right: 5%;
+    top: 30%;
+    left: 40%;
     background-color: #e0f2f7;
     border-radius: 5px;
     z-index: 10;
     display: flex;
     flex-direction: column;
     box-shadow:0 2px 8px rgba(0, 0, 0, 0.05) ;
+}
+.inDiv .dd{
+    left: 70%;
+    top: 65%;
 }
 .inDiv .dd button,.exDiv .dd button{
     background: none;
@@ -291,6 +355,9 @@ input::-webkit-inner-spin-button {
 .curr{
     width: 95%;
     height: 95%;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
     box-shadow: 0 2px 6PX rgba(0, 0, 0, 0.2);
     border-radius: 5px;
     margin: 1%;
@@ -309,7 +376,14 @@ input::-webkit-inner-spin-button {
     width:15%;
     font-size: 2rem;
     height: auto;
-}    
+}  
+.bill-img{
+    width:30%;
+    height:30%;
+    position:absolute;
+    top:50%;
+    right:4%;
+}  
 @media screen and (max-width:376px){
     .nav{
         font-size: 1rem;
@@ -355,6 +429,9 @@ input::-webkit-inner-spin-button {
     .bar{
         height: 20%;
     }
+    .bill-img{
+        right:5%
+    }
 }   
 @media screen and (min-width:768px){
     .nav{
@@ -364,20 +441,39 @@ input::-webkit-inner-spin-button {
     .home, .expenses,.income{
         font-size: 2.5rem;
     }
+    .home .display{
+        margin-top: 8%;
+    }
+    .income .amt{
+        height: 30%;
+    }
     .amt input,.income input{
         width: 35%;
         font-size: 3.8rem;
-        margin-top: 2rem;
+        margin-top: 4rem;
     }
     #tagInput{
-        width: 50%;
-        font-size: 2.5rem;
+        width: 35%;
+        font-size: 2rem;
+        margin: 0;
     }
-    .income button{
+    #inBtn{
         height: 3rem;
+        width: 8rem;
+        margin-top: 1rem;
+        font-size: 1.5rem;
+    }
+    .amt p , .tags p{
+        top: 5%;
     }
     .tag button{
         font-size: 1.5rem;
+    }
+    .exDiv{
+        flex-direction: row;
+        height: 12%;
+        width: 95%;
+        align-content: center;
     }
     .inDiv p,.exDiv p{
         font-size: 2rem;
@@ -392,25 +488,36 @@ input::-webkit-inner-spin-button {
     }
     #add{
         font-size: 2rem;
-        height: 5.5rem;
-        width: 25%;
+        height: 3.5rem;
+        width: 20%;
+        margin: 0;
     }
     .home .add{
         width: 80%;
         padding: 1%;
         font-size: 2rem;
-        height: 10%;
-    }
-    .tags{
-        margin: auto;
+        height: 15%;
     }
     .barRow,.balance{
         flex-direction: row;
         align-items: center;
     }
-    .menu{
+    .inDiv .menu,.menu{
         height: 3rem;
         width: 3rem;
+        top: 19%;
     }
+    .inDiv{
+        height: 20%;
+    }
+    .bill-img{
+        right: 3%;
+        width: 6%;
+        height: 35%;
+    }
+    .exForm .close{
+        height: 9%;
+    }
+
 }
 
