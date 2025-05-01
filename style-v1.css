@@ -6,7 +6,7 @@
     box-sizing: border-box;
 }
 body,html{
-    background-color: #fffff0;
+    background-color: #ffffff;
     height: 100vh;
     overflow: hidden;
 }
@@ -20,25 +20,24 @@ body,html{
     left: 0;
     z-index: 999;
     width: 100vw;
-    height: 6vh;
+    height: 7vh;
     font-size: 1.6rem;
-    background-color: #6495ed;
+    background-color: #b388eb;
 }
 .nav a{
     color: white;
     text-decoration: none;
+    border-radius: 5px;
+    padding: 7px 16px;
 }
 .nav a.active{
-    background-color: #6495ed;
-   color: white;
-   text-shadow: 0 0 5px white,0 0 10px white;
-   text-decoration: underline white;
+    background-color: #6434a3;
 }
 #set{
     position: fixed;
     height: 4rem;
     width: 4rem;
-    background-color: #23b0c8;
+    background-color: #b388eb;
     border-radius: 50%;
     z-index: 1000;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
@@ -57,7 +56,7 @@ body,html{
 }
 .set-page{
     background-color: white;
-    color: #000080;
+    color: #44236f;
     text-align: center;
     font-size: 2rem;
     height: 100%;
@@ -66,25 +65,32 @@ body,html{
 .set-page input{
     height: 1.5rem;
     width: 1.5rem;
-    background-color: #000080;
+    background-color: #44236f;
     color: white;
 }
 body.dark .set-page,body.dark .container,body.dark .home,
 body.dark .expenses,body.dark .income,body.dark .exForm{
-    background-color: #000080;
-    color: white;
+    background-color: #2a1b3d;
+    color: #7c64a2;
 }
-body.dark .display,body.dark .home.add,body.dark input,body.dark button{
-    background-color:#87ceeb;
-    color: #000080;
+body.dark .display,body.dark .home.add,body.dark input,body.dark button,
+body.dark .exDiv,body.dark .inDiv{
+    background-color:#b388eb;
+    color:#2a1b3d;
 }
-
+body.dark .p-header{
+    color:#7c64a2;
+}
+body.dark .amt,body.dark .historylist,body.dark .curr,body.dark .tags,
+body.dark .barRow{
+    box-shadow: 0 0 10px rgba(238, 235, 235, 0.5);
+}
 .exForm{
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: #fffff0;
+    background-color: #ffffff;
     height: 100%;
     width: 100%;
     gap: 2rem;
@@ -94,17 +100,18 @@ body.dark .display,body.dark .home.add,body.dark input,body.dark button{
     position: fixed;
     top: 0;
     width: 100%;
-    background-color: #6495ed;
-    height: 5%;
+    background-color: #b388eb;
+    height: 7%;
     text-align: right;
-    padding: 1% 2% 1% 1%;
+    padding:1.2rem 1.8rem 1.2rem 1.2rem;
+    font-size: 1.8rem;
 }
 .success-popup{
     position: fixed;
     bottom: 30px;
     left: 50%;
     transform: translateX(-50%);
-    background-color: #000080;
+    background-color: #f44336;
     color: #e0f2f7;
     padding: 12px 20px;
     border-radius: 10px;
@@ -114,19 +121,18 @@ body.dark .display,body.dark .home.add,body.dark input,body.dark button{
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 .tag .selected{
-    background-color: #e0f2f7;
-    color: #000080;
+    background-color: #c5add9;
 }
 .container{
     position: absolute;
-    top: 6vh;
+    top: 7vh;
     display: flex;
     flex-direction: row;
     scroll-snap-type: x mandatory;
     overflow-x: auto;
     overflow-y: hidden;
     width: 100vw;
-    height: 95vh;
+    height: 93vh;
     scroll-behavior: smooth;
 }
 .home, .income, .expenses{
@@ -140,25 +146,26 @@ body.dark .display,body.dark .home.add,body.dark input,body.dark button{
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: #fffff0;
-    box-shadow: -4px 0 0 rgba(0, 0, 0, 0.05), 4px 0 0 rgba(0, 0, 0, 0.05);
+    background-color: #ffffff;
     font-size: 2rem;
 }
 button{
-    background-color: #4682b4;
+    background-color: #b388eb;
     color: white;
     border-radius: 1.5rem;
     border: none;  
     font-size: 1rem;
 }
 #add{
-    background-color: #6495ed;
+    background-color: #b388eb;
     height: 4rem;
     width: 45%;
+    font-size: 1.8rem;
 }
 #inBtn{
-    height: 2rem;
-    width: 5rem;
+    height: 2.2rem;
+    width: 5.5rem;
+    font-size: 1.2rem;
     margin-top: 1rem;
 }
 .amt,.tags{
@@ -180,6 +187,7 @@ button{
 }
 .home .add{
     width: 80%;
+    margin-bottom: 4%;
     padding: 1%;
     font-size: 1.6rem;
     height: 10%;
@@ -188,7 +196,7 @@ button{
     height: 60%;
     width: 85%;
     margin-top: 15%;
-    border: solid;
+    border: solid #44236f;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -204,33 +212,34 @@ button{
     padding: 1%;
     justify-content: center;
     gap: 1rem;
-    box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.2);
 }
 .bar{
     height: 33%;
     width: 90%;
-    background-color: #6495ed;
+    background-color: #d6c3ec;
     margin: 0 1rem;
-    border-radius: 10px;
+    border-radius: 999px;
 }
 .inc-bar,.ex-bar{
     height: 100%;
-    background-color: #000080;
-    border-radius: 10px;
+    background-color: #6434a3;
+    border-radius: 999px;
 }
 .amt input, .income input, #tagInput{
     height: 27%;
     width: 45%;
-    font-size: 2.5rem;
+    font-size: 100%;
     padding: 1%;
     margin-top: 1rem;
     border-radius: 5px;
-    border: solid #000080 2px;
-    background-color: #fffff0; 
+    border: solid #44236f 2px;
+    background-color: #ffffff; 
 }
 #tagInput{
     visibility: hidden;
     font-size: 1rem;
+    height: 35%;
 }
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
@@ -248,19 +257,15 @@ input::-webkit-inner-spin-button {
     flex-wrap: wrap;
 }
 .tag button{
-    height: 30%;
+    height: 50%;
     width: 30%;
-    padding: 2%;
+    padding: 0.2rem;
     border-radius: 2.5vh;
-    background-color: #fffff0;
-    color: #000080;
-    border: #000080 solid 2px;
+    background-color: #ffffff;
+    color: #44236f;
+    border: #44236f solid 2px;
     font-size: 1rem;
     cursor:pointer;
-}
-.tagel:hover{
-    background-color: #87ceeb;
-    transform: scale(1.25);
 }
 #inAmt p{
     top: 2%;
@@ -272,32 +277,47 @@ input::-webkit-inner-spin-button {
     justify-content: center;
     align-content: flex-start;
     flex-direction: column;
-    background-color: #87ceeb;
+    background-color: #c7a7e8;
     border-radius: 5px;
-    margin: 2%;
+    margin: 1%;
+    margin-left: 2.3%;
     padding: 0.2rem;
-    height: 15%;
+    height: 16%;
     width: 46%;
 }
 .inDiv{
     flex-direction: row;
     height: 15%;
     width: 95%;
-    align-content: center;
+    flex-wrap: nowrap;
+    align-items: center;
 }
 .inDiv p,.exDiv p{
     width: 40%;
     font-size: 1.5rem;
     padding: 1%;
-    color: #000080;
+    color: #44236f;
     text-align: left;
 }
-.inDiv #date, .exDiv #t, .exDiv #date{
+.inDiv #date, .exDiv #t,.exDiv #date{
     font-size: 1rem;
     text-align: center;
+    padding: 0.5rem;
+}
+.exDiv #t{
+    display: inline-block;
+    height: auto;
+    min-width: 4rem;
+    border-radius: 999px;
+    background-color:#6434a3;
+    color: #c5add9;
+    padding: 4px;
+    margin-top: 0.8rem;
+    white-space: nowrap;
 }
 .menu{
     cursor: pointer;
+    color: #44236f;
     width: 2rem;
     height: 2rem;
     position: absolute;
@@ -305,15 +325,15 @@ input::-webkit-inner-spin-button {
     top: 5%;
 }
 .inDiv .menu{
-    top: 20%;
+    top: 18%;
 }
 .dd {
     position: absolute;
-    height: 5.5rem;
-    width: 6rem;
+    height: auto;
+    width: 5.5rem;
     top: 30%;
-    left: 40%;
-    background-color: #e0f2f7;
+    left: 50%;
+    background-color: #d7cbe9;
     border-radius: 5px;
     z-index: 10;
     display: flex;
@@ -328,7 +348,7 @@ input::-webkit-inner-spin-button {
     background: none;
     cursor: pointer;
     width: 100%;
-    color: #000080;
+    color: #44236f;
     margin: 0.3rem;
     font-size: 1rem;
 }
@@ -349,15 +369,20 @@ input::-webkit-inner-spin-button {
 }
 .incList{
     height: 90%;
+    padding-top: 5px;
     overflow-y: auto;
     scrollbar-width: none;
 }
+.expenses{
+    position: relative;
+}
 .curr{
     width: 95%;
-    height: 95%;
+    height: 94%;
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
+    align-content: flex-start;
     box-shadow: 0 2px 6PX rgba(0, 0, 0, 0.2);
     border-radius: 5px;
     margin: 1%;
@@ -365,12 +390,73 @@ input::-webkit-inner-spin-button {
     overflow-y: auto;
     transition: flex 0.3s ease;
     scrollbar-width: none;
+    z-index: 1;
+}
+.p-header{
+    width: 95%;
+    height: 6%;
+    position: absolute;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    border-radius: 5px;
+    border: solid #44236f;
+    color: #44236f;
+    box-shadow: 0 2px 6PX rgba(0, 0, 0, 0.2);
+    z-index: 3;
+}
+.p-header.raised{
+    bottom: 50%;
 }
 .past{
-    max-height: 0;
+    position: absolute;
+    bottom: -50%;
     overflow-y: auto;
     overflow: hidden;
+    width: 95%;
     transition: max-height 0.5s ease;
+    z-index: 2;
+    height: calc(50% - 10px);
+    background-color: #ffffff;
+}
+.pastDiv{
+    height: 20%;
+    background-color: #c7a7e8;
+    color: #44236f;
+    border-radius: 10px;
+    font-size: 1.8rem;
+}
+.pDiv-header{
+    height: 100%;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.pDiv-content.hidden{
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+}
+.pDiv-content{
+    max-height: 200px;
+    transition: max-height 0.3s ease;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+.past.open{
+    bottom: 0;
+}
+.arrow-caret{
+    transition: transform 0.3s ease;
+    transform-origin: center;
+}
+.rotated{
+    transform: rotate(180deg);
 }
 .inDiv button,.exDiv button{
     width:15%;
@@ -400,6 +486,9 @@ input::-webkit-inner-spin-button {
     }
     .tag{
         margin: 0;
+    }
+    .exDiv{
+        height: 18%;
     }
     .inDiv p,.exDiv p{
         font-size: 1.3rem;
@@ -470,18 +559,21 @@ input::-webkit-inner-spin-button {
         font-size: 1.5rem;
     }
     .exDiv{
+        gap: 5rem;
         flex-direction: row;
         height: 12%;
         width: 95%;
-        align-content: center;
+        flex-wrap: nowrap;
+        align-items: center;
+        justify-content: flex-start;
     }
     .inDiv p,.exDiv p{
-        font-size: 2rem;
+        font-size: 100%;
         width: 30%;
         text-align: center;
     }
     .inDiv #date, .exDiv #t, .exDiv #date{
-        font-size: 1.3rem;
+        font-size: 70%;
     }
     .inDiv button, .exDiv button{
         font-size: 2rem;
@@ -508,10 +600,12 @@ input::-webkit-inner-spin-button {
         top: 19%;
     }
     .inDiv{
+        gap: 4rem;
         height: 20%;
     }
     .bill-img{
-        right: 3%;
+        right: 10%;
+        top: 35%;
         width: 6%;
         height: 35%;
     }
@@ -519,5 +613,28 @@ input::-webkit-inner-spin-button {
         height: 9%;
     }
 
+}
+@media  screen and (min-width:1000px){
+    .exDiv,.inDiv{
+        height: 19%;
+        font-size: 2.8rem;
+    }
+    .nav{
+        height: 11vh;
+    }
+    .container{
+        height: 93vh;
+    }
+    .home{
+        height: 89vh;
+    }
+    .p-header{
+        height: 10%;
+        margin-bottom: 1%;
+    }
+    .home .add{
+        margin-top: 5px;
+        margin-bottom: 0;
+    }
 }
 

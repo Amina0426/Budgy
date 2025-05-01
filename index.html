@@ -23,7 +23,7 @@
         <div id="overlay1">
             <div class="exForm">
                 <div class="close">
-                    <span class="close">&#10006;;</span>
+                    <span class="close">&#10006;</span>
                 </div>
                 <div class="amt">
                     <p>Add Your Expense :</p>
@@ -34,11 +34,11 @@
                     <div class="tag">
                     <button class="tagel">Food</button>
                     <button class="tagel">Travel</button>
-                    <button id="tag2">+</button>
+                    <button class="tagel" id="tag2">+</button>
                     <input type="text" id="tagInput" placeholder="Enter custom tag">
                     </div>
                 </div>
-                    <button id="add">+Add</button>
+                    <button id="add">Add</button>
             </div>
         </div>
         <div class="display">
@@ -65,7 +65,7 @@
         <div class="amt" id="inAmt">
             <p>Add Amount :</p>
             <input type="number"id="income"/>
-            <button id="inBtn">+Add</button>
+            <button id="inBtn">Add</button>
         </div>
             <div class="historylist">
                 <p style="height: 10%;">INCOME HISTORY</p>
@@ -74,21 +74,51 @@
     </div>
     <div class="expenses" id="e">
         <div class="curr"></div>
+        <div class="p-header" onclick="togglePast()">
+            <span>Past Totals</span>
+            <svg id="arrow" class="arrow-caret" width="2rem" height="2rem" 
+            viewBox="0 0 24 24">
+            <path d="M7 10l5 5 5-5" fill="none" stroke="currentColor" 
+            stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </div>
         <div class="past"></div>
     </div>
 </div>
 
 <div id="fullImageView" style="display:none; position:fixed; top:0; left:0;
- width:100vw; height:100vh; background:#87ceeb; justify-content:center;
+ width:100vw; height:100vh; background:black; justify-content:center;
   align-items:center; z-index:9999;">
     <button id="delImg" style="position: absolute; top: 15px;
-    right: 15px; background-color: red; color: white; z-index: 10001;
-    height: 3rem;width: 3rem;font-size: 1.8rem; " 
+    right: 15px; z-index: 10001; height: 3rem; width: 3rem; font-size: 2rem;
+    background-color: #f44336;" 
     onclick="delImg()">
-    &#x1F5D1; </button>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="48" 
+    fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"
+  stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash">
+  <polyline points="3 6 5 6 21 6" />
+  <path d="M19 6l-1 14H6L5 6" />
+  <path d="M10 11v6M14 11v6" />
+  <path d="M9 6V4h6v2" />
+</svg></button>
     <img id="fullImg" src="" style="max-width:100%; max-height:100%;">
 </div>
-<div id="set" onclick="openSetModal()">&#9881;</div>
+<div id="set" onclick="openSetModal()">
+    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="64" fill="none" 
+    stroke="currentColor" stroke-width="1.5" stroke-linecap="round" 
+    stroke-linejoin="round" viewbox="0 0 24 24" class="feather feather-settings">
+  <circle cx="12" cy="12" r="3" />
+  <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 
+  1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09a1.65 1.65 
+  0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 
+  0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 
+  1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 
+  0 0 0 1.82.33h.09a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 
+  0 0 0 1 1.51h.09a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 
+  1.65 0 0 0-.33 1.82v.09a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 
+  0 0 0-1.51 1z" />
+</svg>
+</div>
 <div id="set-modal">
     <div class="set-page">
         <span class="close" onclick="closeModal()">&#10060;</span>

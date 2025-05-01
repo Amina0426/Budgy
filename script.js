@@ -145,17 +145,20 @@ function displayExpense(){
     let expenses= JSON.parse(localStorage.getItem("expenses"))||[];
 
     const curr = new Date().getMonth();
-    const monthTotals = {};
+    const pastExpByMonth = {};
     const currExpenses =[];
 
     expenses.forEach(expense => {
         const date = new Date(expense.date);
         const month = date.getMonth();
+        const monthKey = date.toLocaleString("default",{month:'short',year:'numeric'});
         if(month===curr){
             currExpenses.push(expense);
         }else{ //month key is like 'Apr 2025' 
-            const monthKey = date.toLocaleString("default",{month:'short',year:'numeric'});
-            monthTotals[monthKey]=(monthTotals[monthKey]||0)+expense.amount;
+            if(!pastExpByMonth[monthKey]){
+                pastExpByMonth[monthKey]=[];
+            }
+            pastExpByMonth[monthKey].push(expense);
         }
     });
 
@@ -164,8 +167,8 @@ function displayExpense(){
         let li=document.createElement("div");
         li.classList.add("exDiv");
         li.innerHTML=`<p> Rs.${expense.amount}</p> 
-        <p id="date">${formatDate(expense.date)}</p>
-         <p id="t">(${expense.tag})</p>
+        <p id="date">${formatDate(expense.date)}
+        <br> <span id="t">${expense.tag}</span></p>
          ${expense.img ? `<img src="${expense.img}" class="bill-img">`:''}
          <div class="menu">&#x22EE;</div>
          <div class="dd hidden">
@@ -176,10 +179,42 @@ function displayExpense(){
         currList.appendChild(li);
     });
     past.innerHTML='';
-    for(let month in monthTotals){
-        let li=document.createElement("div");
-        li.textContent=`${month} Total: Rs.${monthTotals[month]}`;
-        past.appendChild(li);
+    for(let month in pastExpByMonth){
+        let monthDiv=document.createElement("div");
+        monthDiv.classList.add("pastDiv");
+
+        const total=pastExpByMonth[month].reduce((sum,exp)=>
+            sum+ parseFloat(exp.amount),0
+        );
+        let liHeader=document.createElement("div");
+        liHeader.classList.add("pDiv-header");
+        liHeader.textContent=`${month} Total: Rs.${total.toFixed(2)}`;
+        monthDiv.appendChild(liHeader);
+
+        let monthContent=document.createElement("div");
+        monthContent.classList.add("pDiv-content","hidden");
+
+        pastExpByMonth[month].forEach((expense,index)=>{
+            let li=document.createElement("div");
+            li.classList.add("exDiv");
+            li.innerHTML=`<p> Rs.${expense.amount}</p> 
+            <p id="date">${formatDate(expense.date)}
+            <br> <span id="t">${expense.tag}</span></p>
+             ${expense.img ? `<img src="${expense.img}" class="bill-img">`:''}
+             <div class="menu">&#x22EE;</div>
+             <div class="dd hidden">
+             <button onclick="edit('expenses',${index})">Edit</button>
+             <button onclick="deleteExpense(${index})">Delete</button>
+             <button onclick="addPic(${index})">Add Bill</button>
+             </div>`;
+             monthContent.appendChild(li);
+        });
+        monthDiv.appendChild(monthContent)
+        past.appendChild(monthDiv);
+
+        liHeader.addEventListener("click",()=>{
+            monthContent.classList.toggle("hidden");
+        });
     }
     document.querySelectorAll(".menu").forEach(btn => {
         btn.addEventListener("click", (e) => {
@@ -196,6 +231,14 @@ function formatDate(iso){
     const month=String(d.getMonth()+1).padStart(2,'0');
     const year=d.getFullYear();
     return `${day}/${month}/${year}`;
+}
+function togglePast(){
+    let past=document.querySelector(".past");
+    const arrow=document.querySelector(".arrow-caret");
+    let header=document.querySelector(".p-header");
+    header.classList.toggle("raised");
+    past.classList.toggle("open");
+    arrow.classList.toggle("rotated");
 }
 function deleteExpense(index){
     let expenses=JSON.parse(localStorage.getItem("expenses"))||[];
