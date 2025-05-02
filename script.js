@@ -167,10 +167,10 @@ function displayExpense(){
         let li=document.createElement("div");
         li.classList.add("exDiv");
         li.innerHTML=`<p> Rs.${expense.amount}</p> 
-        <p id="date">${formatDate(expense.date)}
-        <br> <span id="t">${expense.tag}</span></p>
+        <p id="date">${formatDate(expense.date)}</p>
+        <span id="t">${expense.tag}</span>
          ${expense.img ? `<img src="${expense.img}" class="bill-img">`:''}
-         <div class="menu">&#x22EE;</div>
+         <button id="menu">&#x22EE;</button>
          <div class="dd hidden">
          <button onclick="edit('expenses',${index})">Edit</button>
          <button onclick="deleteExpense(${index})">Delete</button>
@@ -198,10 +198,10 @@ function displayExpense(){
             let li=document.createElement("div");
             li.classList.add("exDiv");
             li.innerHTML=`<p> Rs.${expense.amount}</p> 
-            <p id="date">${formatDate(expense.date)}
-            <br> <span id="t">${expense.tag}</span></p>
+            <p id="date">${formatDate(expense.date)}</p>
+            <span id="t">${expense.tag}</span>
              ${expense.img ? `<img src="${expense.img}" class="bill-img">`:''}
-             <div class="menu">&#x22EE;</div>
+             <button id="menu">&#x22EE;</button>
              <div class="dd hidden">
              <button onclick="edit('expenses',${index})">Edit</button>
              <button onclick="deleteExpense(${index})">Delete</button>
@@ -216,7 +216,7 @@ function displayExpense(){
             monthContent.classList.toggle("hidden");
         });
     }
-    document.querySelectorAll(".menu").forEach(btn => {
+    document.querySelectorAll("#menu").forEach(btn => {
         btn.addEventListener("click", (e) => {
           e.stopPropagation();
           closeAllDropdowns();
@@ -294,14 +294,14 @@ function displayIncome(){
         li.classList.add("inDiv");
         li.innerHTML=`<p>Rs. ${income.amount}</p> 
         <p id="date">${income.date}</p>  
-         <div class="menu">&#x22EE;</div>
+         <button id="menu">&#x22EE;</button>
          <div class="dd hidden">
          <button onclick="edit('incomes',${index})">Edit</button>
          <button onclick="deleteInc(${index})">Delete</button>
          </div>`;
         incList.appendChild(li);
     });
-    document.querySelectorAll(".menu").forEach(btn => {
+    document.querySelectorAll("#menu").forEach(btn => {
         btn.addEventListener("click", (e) => {
           e.stopPropagation();
           closeAllDropdowns();

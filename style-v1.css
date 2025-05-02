@@ -69,21 +69,18 @@ body,html{
     color: white;
 }
 body.dark .set-page,body.dark .container,body.dark .home,
-body.dark .expenses,body.dark .income,body.dark .exForm{
+body.dark .expenses,body.dark .income,body.dark .exForm,body.dark .past{
     background-color: #2a1b3d;
     color: #7c64a2;
 }
 body.dark .display,body.dark .home.add,body.dark input,body.dark button,
-body.dark .exDiv,body.dark .inDiv{
+body.dark .exDiv,body.dark .inDiv,body.dark .p-header{
     background-color:#b388eb;
     color:#2a1b3d;
 }
-body.dark .p-header{
-    color:#7c64a2;
-}
 body.dark .amt,body.dark .historylist,body.dark .curr,body.dark .tags,
 body.dark .barRow{
-    box-shadow: 0 0 10px rgba(238, 235, 235, 0.5);
+    box-shadow: 0 0 8px rgba(238, 235, 235, 0.5);
 }
 .exForm{
     display: flex;
@@ -96,15 +93,17 @@ body.dark .barRow{
     gap: 2rem;
 }
 .close{
-    display: block;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
     position: fixed;
     top: 0;
     width: 100%;
     background-color: #b388eb;
     height: 7%;
     text-align: right;
-    padding:1.2rem 1.8rem 1.2rem 1.2rem;
-    font-size: 1.8rem;
+    padding-right: 10px;
+    font-size: 2rem;
 }
 .success-popup{
     position: fixed;
@@ -214,6 +213,9 @@ button{
     gap: 1rem;
     box-shadow: 0 0 6px rgba(0, 0, 0, 0.2);
 }
+.barRow span{
+    height: 22%;
+}
 .bar{
     height: 33%;
     width: 90%;
@@ -286,6 +288,7 @@ input::-webkit-inner-spin-button {
     width: 46%;
 }
 .inDiv{
+    gap: 0.5rem;
     flex-direction: row;
     height: 15%;
     width: 95%;
@@ -307,25 +310,27 @@ input::-webkit-inner-spin-button {
 .exDiv #t{
     display: inline-block;
     height: auto;
-    min-width: 4rem;
+    min-width:4rem;
+    max-width: max-content;
     border-radius: 999px;
     background-color:#6434a3;
     color: #c5add9;
-    padding: 4px;
-    margin-top: 0.8rem;
     white-space: nowrap;
 }
-.menu{
+#menu{
     cursor: pointer;
     color: #44236f;
     width: 2rem;
+    font-size: 1.5rem;
     height: 2rem;
     position: absolute;
     right: 0%;
     top: 5%;
 }
-.inDiv .menu{
-    top: 18%;
+.inDiv #menu{
+    height: 100%;
+    width: calc(100% - 80% - 1rem);
+    position: static;
 }
 .dd {
     position: absolute;
@@ -396,7 +401,7 @@ input::-webkit-inner-spin-button {
     width: 95%;
     height: 6%;
     position: absolute;
-    bottom: 0;
+    bottom: 1%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -404,8 +409,10 @@ input::-webkit-inner-spin-button {
     border-radius: 5px;
     border: solid #44236f;
     color: #44236f;
+    background-color: #ffffff;
     box-shadow: 0 2px 6PX rgba(0, 0, 0, 0.2);
     z-index: 3;
+    transition: bottom 0.3s ease;
 }
 .p-header.raised{
     bottom: 50%;
@@ -416,9 +423,10 @@ input::-webkit-inner-spin-button {
     overflow-y: auto;
     overflow: hidden;
     width: 95%;
-    transition: max-height 0.5s ease;
+    height: 0;
+    opacity: 0;
+    transition: height 0.3s ease, opacity 0.3s ease;
     z-index: 2;
-    height: calc(50% - 10px);
     background-color: #ffffff;
 }
 .pastDiv{
@@ -426,7 +434,7 @@ input::-webkit-inner-spin-button {
     background-color: #c7a7e8;
     color: #44236f;
     border-radius: 10px;
-    font-size: 1.8rem;
+    font-size: 1.5rem;
 }
 .pDiv-header{
     height: 100%;
@@ -441,7 +449,7 @@ input::-webkit-inner-spin-button {
     transition: max-height 0.3s ease;
 }
 .pDiv-content{
-    max-height: 200px;
+    max-height: 300px;
     transition: max-height 0.3s ease;
     overflow-y: auto;
     display: flex;
@@ -449,6 +457,8 @@ input::-webkit-inner-spin-button {
     flex-wrap: wrap;
 }
 .past.open{
+    height: calc(50% - 10px);
+    opacity: 1;
     bottom: 0;
 }
 .arrow-caret{
@@ -521,6 +531,9 @@ input::-webkit-inner-spin-button {
     .bill-img{
         right:5%
     }
+    .pastDiv{
+        font-size: 1rem;
+    }
 }   
 @media screen and (min-width:768px){
     .nav{
@@ -559,7 +572,7 @@ input::-webkit-inner-spin-button {
         font-size: 1.5rem;
     }
     .exDiv{
-        gap: 5rem;
+        gap: 3rem;
         flex-direction: row;
         height: 12%;
         width: 95%;
@@ -594,8 +607,8 @@ input::-webkit-inner-spin-button {
         flex-direction: row;
         align-items: center;
     }
-    .inDiv .menu,.menu{
-        height: 3rem;
+    .inDiv #menu,#menu{
+        height: 2rem;
         width: 3rem;
         top: 19%;
     }
@@ -635,6 +648,7 @@ input::-webkit-inner-spin-button {
     .home .add{
         margin-top: 5px;
         margin-bottom: 0;
+        font-size: larger;
     }
 }
 
