@@ -148,22 +148,22 @@ function displayExpense(){
     const pastExpByMonth = {};
     const currExpenses =[];
 
-    expenses.forEach(expense => {
+    expenses.forEach((expense,realIndex) => {
         const date = new Date(expense.date);
         const month = date.getMonth();
         const monthKey = date.toLocaleString("default",{month:'short',year:'numeric'});
         if(month===curr){
-            currExpenses.push(expense);
+            currExpenses.push({...expense,realIndex});
         }else{ //month key is like 'Apr 2025' 
             if(!pastExpByMonth[monthKey]){
                 pastExpByMonth[monthKey]=[];
             }
-            pastExpByMonth[monthKey].push(expense);
+            pastExpByMonth[monthKey].push({...expense,realIndex});
         }
     });
 
     currList.innerHTML='';
-    currExpenses.forEach((expense,index)=>{
+    currExpenses.forEach(expense=>{
         let li=document.createElement("div");
         li.classList.add("exDiv");
         li.innerHTML=`<p> Rs.${expense.amount}</p> 
@@ -172,9 +172,9 @@ function displayExpense(){
          ${expense.img ? `<img src="${expense.img}" class="bill-img">`:''}
          <button id="menu">&#x22EE;</button>
          <div class="dd hidden">
-         <button onclick="edit('expenses',${index})">Edit</button>
-         <button onclick="deleteExpense(${index})">Delete</button>
-         <button onclick="addPic(${index})">Add Bill</button>
+         <button onclick="edit('expenses',${expense.realIndex})">Edit</button>
+         <button onclick="deleteExpense(${expense.realIndex})">Delete</button>
+         <button onclick="addPic(${expense.realIndex})">Add Bill</button>
          </div>`;
         currList.appendChild(li);
     });
@@ -203,9 +203,9 @@ function displayExpense(){
              ${expense.img ? `<img src="${expense.img}" class="bill-img">`:''}
              <button id="menu">&#x22EE;</button>
              <div class="dd hidden">
-             <button onclick="edit('expenses',${index})">Edit</button>
-             <button onclick="deleteExpense(${index})">Delete</button>
-             <button onclick="addPic(${index})">Add Bill</button>
+             <button onclick="edit('expenses',${expense.realIndex})">Edit</button>
+             <button onclick="deleteExpense(${expense.realIndex})">Delete</button>
+             <button onclick="addPic(${expense.realIndex})">Add Bill</button>
              </div>`;
              monthContent.appendChild(li);
         });
@@ -242,14 +242,9 @@ function togglePast(){
 }
 function deleteExpense(index){
     let expenses=JSON.parse(localStorage.getItem("expenses"))||[];
-    const curr=new Date().getMonth();
-
-    let currExpenses=expenses.filter(exp=> new Date(exp.date).getMonth()===curr);
     
-    if(index>=0 && index<currExpenses.length){
-        const expToDel=currExpenses[index];
-        expenses=expenses.filter(exp=> !(exp.date === expToDel.date && exp.amount===
-            expToDel.amount && exp.tag === expToDel.tag));
+    if(index>=0 && index<expenses.length){
+        expenses.splice(index,1);
     }
     
     localStorage.setItem("expenses",JSON.stringify(expenses));

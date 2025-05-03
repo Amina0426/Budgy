@@ -74,7 +74,7 @@ body.dark .expenses,body.dark .income,body.dark .exForm,body.dark .past{
     color: #7c64a2;
 }
 body.dark .display,body.dark .home.add,body.dark input,body.dark button,
-body.dark .exDiv,body.dark .inDiv,body.dark .p-header{
+body.dark .exDiv,body.dark .inDiv,body.dark .p-header,body.dark #menu{
     background-color:#b388eb;
     color:#2a1b3d;
 }
@@ -213,9 +213,6 @@ button{
     gap: 1rem;
     box-shadow: 0 0 6px rgba(0, 0, 0, 0.2);
 }
-.barRow span{
-    height: 22%;
-}
 .bar{
     height: 33%;
     width: 90%;
@@ -309,7 +306,8 @@ input::-webkit-inner-spin-button {
 }
 .exDiv #t{
     display: inline-block;
-    height: auto;
+    height: 1.8rem;
+    font-size: 0.8rem;
     min-width:4rem;
     max-width: max-content;
     border-radius: 999px;
@@ -320,6 +318,7 @@ input::-webkit-inner-spin-button {
 #menu{
     cursor: pointer;
     color: #44236f;
+    background-color: #c7a7e8;
     width: 2rem;
     font-size: 1.5rem;
     height: 2rem;
@@ -413,6 +412,7 @@ input::-webkit-inner-spin-button {
     box-shadow: 0 2px 6PX rgba(0, 0, 0, 0.2);
     z-index: 3;
     transition: bottom 0.3s ease;
+    font-size: 1.6rem;
 }
 .p-header.raised{
     bottom: 50%;
@@ -586,7 +586,10 @@ input::-webkit-inner-spin-button {
         text-align: center;
     }
     .inDiv #date, .exDiv #t, .exDiv #date{
-        font-size: 70%;
+        font-size: 1.2rem;
+    }
+    .exDiv #t{
+        height: auto;
     }
     .inDiv button, .exDiv button{
         font-size: 2rem;
