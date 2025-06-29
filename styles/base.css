@@ -1,0 +1,214 @@
+* {
+  padding: 0;
+  margin: 0;
+  font-family: "Poppins", sans-serif;
+  text-align: center;
+  box-sizing: border-box;
+}
+body,
+html {
+  background-color: #ffffff;
+  height: 100vh;
+  overflow: hidden;
+}
+/*home*/
+.container {
+  position: absolute;
+  top: 12vh;
+  display: flex;
+  flex-direction: row;
+  scroll-snap-type: x mandatory;
+  overflow-x: auto;
+  overflow-y: hidden;
+  width: 100vw;
+  height: 88vh;
+  scroll-behavior: smooth;
+}
+.home,
+.income,
+.expenses {
+  width: 100vw;
+  height: 88vh;
+  overflow-y: auto;
+  scroll-snap-align: start;
+  display: flex;
+  flex-shrink: 0;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  background-color: #ffffff;
+  font-size: 2rem;
+}
+.home .add {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  width: 60%;
+  padding: 1%;
+  font-size: 1.5rem;
+  height: 15%;
+  background: linear-gradient(135deg, #b388eb, #c7a7e8);
+}
+/*expense form*/
+.exForm {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #ffffff;
+  height: 100%;
+  width: 100%;
+  gap: 2rem;
+}
+.close {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background-color: #b388eb;
+  height: 7%;
+  text-align: right;
+  padding-right: 10px;
+  font-size: 2rem;
+}
+.success-popup {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #f44336;
+  color: #e0f2f7;
+  padding: 12px 20px;
+  border-radius: 10px;
+  z-index: 10000;
+  opacity: 0.7;
+  font-size: 1rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+.tag .selected {
+  background-color: #c5add9;
+}
+button {
+  background-color: #b388eb;
+  color: white;
+  border-radius: 1.5rem;
+  border: none;
+  font-size: 1rem;
+}
+#add {
+  background-color: #b388eb;
+  height: 4rem;
+  width: 45%;
+  font-size: 1.8rem;
+}
+
+.amt,
+.tags {
+  position: relative;
+  height: 25%;
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.1);
+}
+.tags {
+  height: 35%;
+}
+
+.amt input,
+.income input,
+#tagInput {
+  height: 27%;
+  width: 45%;
+  font-size: 100%;
+  padding: 1%;
+  margin-top: 1rem;
+  border-radius: 5px;
+  border: solid #44236f 2px;
+  background-color: #ffffff;
+}
+#tagInput {
+  visibility: hidden;
+  font-size: 1rem;
+  height: 35%;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.tag {
+  width: 100%;
+  display: flex;
+  margin-top: 2rem;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+.tag button {
+  height: 50%;
+  width: 30%;
+  padding: 0.2rem;
+  border-radius: 2.5vh;
+  background-color: #ffffff;
+  color: #44236f;
+  border: #44236f solid 2px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+#editModalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  background: rgba(0, 0, 0, 0.6);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+#editModalBox {
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 400px;
+  text-align: center;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.2);
+}
+
+#editModalBox input {
+  width: 90%;
+  padding: 0.7rem;
+  margin-top: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+.prompt-buttons {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 1.2rem;
+}
+
+.prompt-buttons button {
+  padding: 0.5rem 1.2rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 6px;
+  background-color: #b388eb;
+  color: white;
+  cursor: pointer;
+}
+#editModalOverlay.show {
+  display: flex;
+}

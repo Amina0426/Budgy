@@ -1,0 +1,201 @@
+@media screen and (max-width: 376px) {
+  .nav {
+    font-size: 1rem;
+  }
+  #plus svg {
+    width: 24px;
+  }
+  .home,
+  .expenses,
+  .income {
+    font-size: 1.5rem;
+  }
+  .home .display {
+    height: 70%;
+  }
+  .summary-card {
+    font-size: 1.2rem;
+  }
+  .amt input,
+  .income input {
+    width: 35%;
+    font-size: 1.8rem;
+  }
+  .tag button {
+    font-size: 0.7rem;
+  }
+  .tag {
+    margin: 0;
+  }
+  .exDiv {
+    height: 18%;
+  }
+  .inDiv p,
+  .exDiv p {
+    font-size: 1.3rem;
+    width: 40%;
+    text-align: center;
+  }
+  .inDiv #date,
+  .exDiv #t,
+  .exDiv #date {
+    font-size: 0.7rem;
+  }
+  .inDiv button,
+  .exDiv button {
+    font-size: 1rem;
+    height: 20%;
+  }
+  #add {
+    height: 3rem;
+  }
+  .home .add {
+    width: 80%;
+    padding: 1%;
+    font-size: 1.2rem;
+    height: 10%;
+  }
+  .barRow,
+  .balance {
+    gap: 0;
+    justify-content: space-around;
+  }
+  .bar {
+    height: 20%;
+  }
+  .bill-img {
+    right: 5%;
+  }
+  .pastDiv {
+    font-size: 1rem;
+  }
+}
+@media screen and (min-width: 768px) {
+  .nav {
+    font-size: 2rem;
+    height: 7vh;
+  }
+  .home,
+  .expenses,
+  .income {
+    font-size: 2.5rem;
+  }
+  .home .display {
+    margin-top: 8%;
+  }
+  .income .amt {
+    height: 30%;
+  }
+  .amt input,
+  .income input {
+    width: 35%;
+    font-size: 3.8rem;
+    margin-top: 4rem;
+  }
+  #tagInput {
+    width: 35%;
+    font-size: 2rem;
+    margin: 0;
+  }
+  #inBtn {
+    height: 3rem;
+    width: 8rem;
+    margin-top: 1rem;
+    font-size: 1.5rem;
+  }
+  .amt p,
+  .tags p {
+    top: 5%;
+  }
+  .tag button {
+    font-size: 1.5rem;
+  }
+  .exDiv {
+    gap: 3rem;
+    flex-direction: row;
+    height: 12%;
+    width: 95%;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: flex-start;
+  }
+  .inDiv p,
+  .exDiv p {
+    font-size: 100%;
+    width: 30%;
+    text-align: center;
+  }
+  .inDiv #date,
+  .exDiv #t,
+  .exDiv #date {
+    font-size: 1.2rem;
+  }
+  .exDiv #t {
+    height: auto;
+  }
+  .inDiv button,
+  .exDiv button {
+    font-size: 2rem;
+  }
+  #add {
+    font-size: 2rem;
+    height: 3.5rem;
+    width: 20%;
+    margin: 0;
+  }
+  .home .add {
+    width: 80%;
+    padding: 1%;
+    font-size: 2rem;
+    height: 15%;
+  }
+  .barRow,
+  .balance {
+    flex-direction: row;
+    align-items: center;
+  }
+  .inDiv #menu,
+  #menu {
+    height: 2rem;
+    width: 3rem;
+    top: 19%;
+  }
+  .inDiv {
+    gap: 4rem;
+    height: 20%;
+  }
+  .bill-img {
+    right: 10%;
+    top: 35%;
+    width: 6%;
+    height: 35%;
+  }
+  .exForm .close {
+    height: 9%;
+  }
+}
+@media screen and (min-width: 1000px) {
+  .exDiv,
+  .inDiv {
+    height: 19%;
+    font-size: 2.8rem;
+  }
+  .nav {
+    height: 11vh;
+  }
+  .container {
+    height: 93vh;
+  }
+  .home {
+    height: 89vh;
+  }
+  .p-header {
+    height: 10%;
+    margin-bottom: 1%;
+  }
+  .home .add {
+    margin-top: 5px;
+    margin-bottom: 0;
+    font-size: larger;
+  }
+}

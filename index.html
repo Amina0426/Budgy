@@ -1,134 +1,266 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#b388eb">
-    <meta name="description" content="An expense tracker">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#b388eb" />
+    <meta name="description" content="An expense tracker" />
     <title>Budgy.</title>
-    <link rel="stylesheet" href="style-v1.css">
-    <link rel="manifest" href="manifest.json">
-    <link rel="icon" href="icons/favicon.ico" type="image/x-icon">
-</head>
-<body>
-    <div class="nav">
+    <link rel="stylesheet" href="styles/base.css" />
+    <link rel="stylesheet" href="styles/theme.css" />
+    <link rel="stylesheet" href="styles/navbar.css" />
+    <link rel="stylesheet" href="styles/responsive.css" />
+    <link rel="stylesheet" href="styles/past.css" />
+    <link rel="stylesheet" href="styles/display.css" />
+    <link rel="stylesheet" href="styles/in&exp.css" />
+    <link rel="stylesheet" href="styles/settings.css" />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter&family=Poppins&family=Quicksand&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="manifest" href="manifest.json" />
+    <link rel="icon" href="icons/favicon.ico" type="image/x-icon" />
+  </head>
+  <body>
+    <div class="navbar">
+      <div class="nav one">
+        <button id="set" onclick="openSetModal()">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="30"
+            height="30"
+            viewBox="0 0 30 30"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <line x1="3" y1="6" x2="21" y2="6" />
+            <line x1="3" y1="12" x2="21" y2="12" />
+            <line x1="3" y1="18" x2="21" y2="18" />
+          </svg>
+        </button>
+        <p>Budgy</p>
+      </div>
+      <div class="nav">
         <a href="#h">Home</a>
         <a href="#i">Income</a>
         <a href="#e">Expense</a>
+      </div>
     </div>
-   
+
     <div class="container">
-    <div class="home" id="h">
-        <button class="add">Tap to ADD your Spend</button>
+      <div class="home" id="h">
+        <button class="add">
+          <span>Add your Spend</span>
+          <span id="plus">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="36"
+              height="36"
+              fill="white"
+              viewBox="0 0 24 24"
+              stroke-width="3"
+              stroke="white"
+            >
+              <path
+                d="M8 1a.5.5 0 0 1 .5.5v6.5H15a.5.5 0 0 1 0 1H8.5V15a.5.5 0 0 1-1 0V9.5H1a.5.5 0 0 1 0-1h6.5V1.5A.5.5 0 0 1 8 1z"
+              />
+            </svg>
+          </span>
+        </button>
         <div id="overlay1">
-            <div class="exForm">
-                <div class="close">
-                    <span class="close">&#10006;</span>
-                </div>
-                <div class="amt">
-                    <p>Add Your Expense :</p>
-                    <input type="number"id="in" autofocus/>
-                </div>
-                <div class="tags">
-                    <p>Choose a Tag :</p>
-                    <div class="tag">
-                    <button class="tagel">Food</button>
-                    <button class="tagel">Travel</button>
-                    <button class="tagel" id="tag2">+</button>
-                    <input type="text" id="tagInput" placeholder="Enter custom tag">
-                    </div>
-                </div>
-                    <button id="add">Add</button>
+          <div class="exForm">
+            <div class="close">
+              <span class="close">&#10006;</span>
             </div>
+            <div class="amt">
+              <p>Add Your Expense :</p>
+              <input type="number" id="in" autofocus />
+            </div>
+            <div class="tags">
+              <p>Choose a Tag :</p>
+              <div class="tag">
+                <button class="tagel">Food</button>
+                <button class="tagel">Travel</button>
+                <button class="tagel" id="tag2">+</button>
+                <input
+                  type="text"
+                  id="tagInput"
+                  placeholder="Enter custom tag"
+                />
+              </div>
+            </div>
+            <button id="add">Add</button>
+          </div>
         </div>
         <div class="display">
-            <span>SUMMARY</span>
-            <div class="barRow" id="incBar">
-                <div class="label">Income</div>
-                <div class="bar">
-                    <div class="inc-bar" style="width:100%"></div>
-                </div>
-                <span id="inMon"></span>
+          <p>At a Glance</p>
+          <div class="donut-canvas-wrapper">
+            <div class="par-wrap">
+              <canvas id="donutCanvas" width="250" height="250"></canvas>
+              <div class="canvas-center" id="canvasCenter"></div>
+              <div class="tooltip hidden" id="canvasTooltip"></div>
             </div>
-            <div class="barRow" id="exBar">
-                <div class="label">Expense</div>
-                <div class="bar">
-                    <div class="ex-bar"></div>
-                </div>
-                <span id="exMon"></span>
-            </div>
-            <div class="balance">Balance</div>
-        </div>    
-    </div>
+          </div>
 
-    <div class="income" id="i">
+          <div class="summary">
+            <div class="summary-card">
+              💰 Income: ₹<span id="incomeTotal">0</span>
+            </div>
+            <div class="summary-card">
+              🛒 Expense: ₹<span id="expenseTotal">0</span>
+            </div>
+            <div class="summary-card">
+              💼 Balance: ₹<span id="balanceTotal">0</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="income" id="i">
         <div class="amt" id="inAmt">
-            <p>Add Amount :</p>
-            <input type="number"id="income"/>
-            <button id="inBtn">Add</button>
+          <p>Add Amount :</p>
+          <input type="number" id="income" />
+          <button id="inBtn">Add</button>
         </div>
-            <div class="historylist">
-                <p style="height: 10%;">INCOME HISTORY</p>
-                <div class="incList"></div>
-            </div>
-    </div>
-    <div class="expenses" id="e">
+        <div class="historylist">
+          <p style="height: 10%">INCOME HISTORY</p>
+          <div class="incList"></div>
+        </div>
+      </div>
+      <div class="expenses" id="e">
         <div class="curr"></div>
-        <div class="p-header" onclick="togglePast()">
+        <div id="past-section">
+          <div class="p-header" onclick="togglePast()">
             <span>Past Totals</span>
-            <svg id="arrow" class="arrow-caret" width="2rem" height="2rem" 
-            viewBox="0 0 24 24">
-            <path d="M7 10l5 5 5-5" fill="none" stroke="currentColor" 
-            stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <svg
+              id="arrow"
+              class="arrow-caret"
+              width="2rem"
+              height="2rem"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M7 10l5 5 5-5"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
             </svg>
+          </div>
+          <div class="past"></div>
         </div>
-        <div class="past"></div>
+      </div>
     </div>
-</div>
 
-<div id="fullImageView" style="display:none; position:fixed; top:0; left:0;
- width:100vw; height:100vh; background:black; justify-content:center;
-  align-items:center; z-index:9999;">
-    <button id="delImg" style="position: absolute; top: 15px;
-    right: 15px; z-index: 10001; height: 3rem; width: 3rem; font-size: 2rem;
-    background-color: #f44336;" 
-    onclick="delImg()">
-    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="48" 
-    fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"
-  stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash">
-  <polyline points="3 6 5 6 21 6" />
-  <path d="M19 6l-1 14H6L5 6" />
-  <path d="M10 11v6M14 11v6" />
-  <path d="M9 6V4h6v2" />
-</svg></button>
-    <img id="fullImg" src="" style="max-width:100%; max-height:100%;">
-</div>
-<div id="set" onclick="openSetModal()">
-    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="64" fill="none" 
-    stroke="currentColor" stroke-width="1.5" stroke-linecap="round" 
-    stroke-linejoin="round" viewbox="0 0 24 24" class="feather feather-settings">
-  <circle cx="12" cy="12" r="3" />
-  <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 
-  1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09a1.65 1.65 
-  0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 
-  0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 
-  1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 
-  0 0 0 1.82.33h.09a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 
-  0 0 0 1 1.51h.09a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 
-  1.65 0 0 0-.33 1.82v.09a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 
-  0 0 0-1.51 1z" />
-</svg>
-</div>
-<div id="set-modal">
-    <div class="set-page">
-        <span class="close" onclick="closeModal()">&#10006;</span>
-        <p style="position: absolute;top: 8%;left: 30%;font-size: 3rem;">Settings</p>
-        <label style="position: absolute;top: 20%;left: 5%;">
-            <input type="checkbox" id="mode" onchange="toggleMode()"/>
-            Dark Mode
-        </label>
+    <div
+      id="fullImageView"
+      style="
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: black;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+      "
+    >
+      <button
+        id="delImg"
+        style="
+          position: absolute;
+          top: 15px;
+          right: 15px;
+          z-index: 10001;
+          height: 3rem;
+          width: 3rem;
+          font-size: 2rem;
+          background-color: #f44336;
+        "
+        onclick="delImg()"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="32"
+          height="48"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          viewbox="0 0 24 24"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="feather feather-trash"
+        >
+          <polyline points="3 6 5 6 21 6" />
+          <path d="M19 6l-1 14H6L5 6" />
+          <path d="M10 11v6M14 11v6" />
+          <path d="M9 6V4h6v2" />
+        </svg>
+      </button>
+      <img id="fullImg" src="" style="max-width: 100%; max-height: 100%" />
     </div>
-</div>
-    <script src="script.js"></script>  
-</body>
+
+    <div id="set-modal">
+      <div class="set-page">
+        <span class="close" onclick="closeModal()">&#10006;</span>
+        <p style="position: absolute; top: 8%; left: 30%; font-size: 3rem">
+          Settings
+        </p>
+        <section class="settings-section">
+          <h2>Appearance</h2>
+          <label id="mode-box">
+            <input type="checkbox" id="mode" onchange="toggleMode()" />
+            Dark Mode
+          </label>
+        </section>
+        <section class="settings-section">
+          <h2>Budget</h2>
+          <label>
+            Monthly Limit (₹):
+            <input
+              type="number"
+              id="monthlyBudget"
+              placeholder="e.g. 5000"
+              onchange="monthlyLimit()"
+            />
+          </label>
+        </section>
+
+        <section class="settings-section">
+          <h2>Data</h2>
+          <button onclick="downloadData()">📦 Export Data</button>
+          <button onclick="resetApp()">🗑 Reset App</button>
+        </section>
+
+        <section class="settings-section">
+          <h2>About</h2>
+          <p>Version: 1.0.0</p>
+          <p>Made by Amina</p>
+        </section>
+      </div>
+    </div>
+
+    <div id="editModalOverlay">
+      <div id="editModalBox">
+        <h2>Edit Entry</h2>
+        <input type="number" id="editAmountInput" placeholder="Amount" />
+        <input type="text" id="editTagInput" placeholder="Tag" />
+        <div class="prompt-buttons">
+          <button id="editSaveBtn">Save</button>
+          <button id="editCancelBtn">Cancel</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
 </html>

@@ -1,0 +1,32 @@
+/*dark*/
+body.dark .set-page,
+body.dark .container,
+body.dark .home,
+body.dark .expenses,
+body.dark .income,
+body.dark .exForm,
+body.dark .past {
+  background-color: #2a1b3d;
+  color: #7c64a2;
+}
+body.dark .display,
+body.dark .home.add,
+body.dark input,
+body.dark button,
+body.dark .exDiv,
+body.dark .inDiv,
+body.dark .p-header,
+body.dark #menu {
+  background-color: #b388eb;
+  color: #2a1b3d;
+}
+body.dark .home.add {
+  background: linear-gradient(135deg, #2a1b3d, #6434a3);
+}
+body.dark .amt,
+body.dark .historylist,
+body.dark .curr,
+body.dark .tags,
+body.dark .barRow {
+  box-shadow: 0 0 8px rgba(238, 235, 235, 0.5);
+}
