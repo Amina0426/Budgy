@@ -1,6 +1,6 @@
 /*navbar*/
 .navbar {
-  color: white;
+  color: var(--text-ondark);
   display: flex;
   flex-direction: column;
   position: fixed;
@@ -9,8 +9,8 @@
   z-index: 999;
   width: 100vw;
   height: 12vh;
-  font-size: clamp(24px, 5vw, 40px);
-  background-color: #b388eb;
+  font-size: 18px;
+  background-color: var(--bg-nav);
 }
 .nav {
   display: flex;
@@ -21,11 +21,11 @@
   box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.2);
 }
 .nav a {
-  color: white;
+  color: var(--text-ondark);
   text-decoration: none;
   border-radius: 5px;
-  padding: 7px 16px;
+  padding: 3px 16px;
 }
 .nav a.active {
-  background-color: #6434a3;
+  background-color: var(--bg-button-hover);
 }

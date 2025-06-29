@@ -1,4 +1,4 @@
-@media screen and (max-width: 376px) {
+@media screen and (max-width: 400px) {
   .nav {
     font-size: 1rem;
   }
@@ -27,9 +27,6 @@
   .tag {
     margin: 0;
   }
-  .exDiv {
-    height: 18%;
-  }
   .inDiv p,
   .exDiv p {
     font-size: 1.3rem;
@@ -50,10 +47,9 @@
     height: 3rem;
   }
   .home .add {
-    width: 80%;
+    width: 65%;
     padding: 1%;
     font-size: 1.2rem;
-    height: 10%;
   }
   .barRow,
   .balance {
@@ -73,7 +69,7 @@
 @media screen and (min-width: 768px) {
   .nav {
     font-size: 2rem;
-    height: 7vh;
+    height: 12vh;
   }
   .home,
   .expenses,
@@ -83,14 +79,10 @@
   .home .display {
     margin-top: 8%;
   }
-  .income .amt {
-    height: 30%;
-  }
   .amt input,
-  .income input {
+  #income {
     width: 35%;
     font-size: 3.8rem;
-    margin-top: 4rem;
   }
   #tagInput {
     width: 35%;
@@ -110,27 +102,39 @@
   .tag button {
     font-size: 1.5rem;
   }
+  .curr {
+    display: flex;
+    flex-direction: column;
+  }
   .exDiv {
     gap: 3rem;
     flex-direction: row;
-    height: 12%;
-    width: 95%;
+    height: 15%;
+    width: 100%;
+    font-size: 2rem;
     flex-wrap: nowrap;
     align-items: center;
     justify-content: flex-start;
   }
-  .inDiv p,
-  .exDiv p {
-    font-size: 100%;
+  .inDiv p {
     width: 30%;
     text-align: center;
+    font-size: 2rem;
+  }
+  .exDiv p {
+    width: 30%;
+    height: 100%;
+    text-align: center;
+    font-size: 2rem;
   }
   .inDiv #date,
   .exDiv #t,
   .exDiv #date {
     font-size: 1.2rem;
+    align-content: center;
   }
   .exDiv #t {
+    max-height: 2.5rem;
     height: auto;
   }
   .inDiv button,

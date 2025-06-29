@@ -1,32 +1,32 @@
-/*dark*/
-body.dark .set-page,
-body.dark .container,
-body.dark .home,
-body.dark .expenses,
-body.dark .income,
-body.dark .exForm,
-body.dark .past {
-  background-color: #2a1b3d;
-  color: #7c64a2;
+/* theme.css */
+
+/* LIGHT MODE */
+:root {
+  --bg-main: #ffffff;
+  --bg-card: #d0b7f1;
+  --bg-nav: #b388eb;
+  --bg-button: #b388eb;
+  --bg-button-hover: #a06edb;
+  --bg-box: #f7f4fb;
+  --text-main: #2a1b3d;
+  --text-subtle: #44236f;
+  --text-accent: #6434a3;
+  --text-ondark: #ffffff;
+  --border-color: #dee2e6;
+  --shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
 }
-body.dark .display,
-body.dark .home.add,
-body.dark input,
-body.dark button,
-body.dark .exDiv,
-body.dark .inDiv,
-body.dark .p-header,
-body.dark #menu {
-  background-color: #b388eb;
-  color: #2a1b3d;
-}
-body.dark .home.add {
-  background: linear-gradient(135deg, #2a1b3d, #6434a3);
-}
-body.dark .amt,
-body.dark .historylist,
-body.dark .curr,
-body.dark .tags,
-body.dark .barRow {
-  box-shadow: 0 0 8px rgba(238, 235, 235, 0.5);
+
+/* DARK MODE */
+body.dark {
+  --bg-main: #1c1327;
+  --bg-card: #20034c;
+  --bg-nav: #5e3ea1;
+  --bg-box: #5e3ea1;
+  --bg-button: #20034c;
+  --bg-button-hover: #7c5bd4;
+  --text-main: #e6dcf5;
+  --text-subtle: #bca8e9;
+  --text-accent: #d0b7f1;
+  --border-color: #3d2a52;
+  --shadow: 0 0 12px rgba(255, 255, 255, 0.05);
 }

@@ -5,13 +5,15 @@
   text-align: center;
   box-sizing: border-box;
 }
+
 body,
 html {
-  background-color: #ffffff;
+  background-color: var(--bg-main);
   height: 100vh;
   overflow: hidden;
 }
-/*home*/
+
+/* home */
 .container {
   position: absolute;
   top: 12vh;
@@ -24,6 +26,7 @@ html {
   height: 88vh;
   scroll-behavior: smooth;
 }
+
 .home,
 .income,
 .expenses {
@@ -36,9 +39,10 @@ html {
   flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
-  background-color: #ffffff;
+  background-color: var(--bg-main);
   font-size: 2rem;
 }
+
 .home .add {
   display: flex;
   flex-direction: column;
@@ -47,19 +51,21 @@ html {
   padding: 1%;
   font-size: 1.5rem;
   height: 15%;
-  background: linear-gradient(135deg, #b388eb, #c7a7e8);
+  background: linear-gradient(135deg, var(--bg-button), var(--bg-button-hover));
 }
-/*expense form*/
+
+/* expense form */
 .exForm {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: #ffffff;
+  background-color: var(--bg-main);
   height: 100%;
   width: 100%;
   gap: 2rem;
 }
+
 .close {
   display: flex;
   justify-content: flex-end;
@@ -67,12 +73,14 @@ html {
   position: fixed;
   top: 0;
   width: 100%;
-  background-color: #b388eb;
+  color: var(--text-main);
+  background-color: var(--bg-button);
   height: 7%;
   text-align: right;
   padding-right: 10px;
   font-size: 2rem;
 }
+
 .success-popup {
   position: fixed;
   bottom: 30px;
@@ -87,18 +95,19 @@ html {
   font-size: 1rem;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
-.tag .selected {
-  background-color: #c5add9;
-}
 button {
-  background-color: #b388eb;
+  background-color: var(--bg-button);
   color: white;
   border-radius: 1.5rem;
   border: none;
   font-size: 1rem;
 }
+
 #add {
-  background-color: #b388eb;
+  background-color: var(--bg-button);
+  color: white;
+  border-radius: 1.5rem;
+  border: none;
   height: 4rem;
   width: 45%;
   font-size: 1.8rem;
@@ -106,6 +115,9 @@ button {
 
 .amt,
 .tags {
+  background-color: var(--bg-box);
+  color: var(--text-main);
+  border-radius: 1.2rem;
   position: relative;
   height: 25%;
   width: 90%;
@@ -113,8 +125,9 @@ button {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow);
 }
+
 .tags {
   height: 35%;
 }
@@ -128,19 +141,23 @@ button {
   padding: 1%;
   margin-top: 1rem;
   border-radius: 5px;
-  border: solid #44236f 2px;
-  background-color: #ffffff;
+  border: solid var(--text-subtle) 2px;
+  background-color: var(--bg-box);
+  color: var(--text-main);
 }
+
 #tagInput {
   visibility: hidden;
   font-size: 1rem;
   height: 35%;
 }
+
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
+
 .tag {
   width: 100%;
   display: flex;
@@ -151,17 +168,23 @@ input::-webkit-inner-spin-button {
   gap: 0.5rem;
   flex-wrap: wrap;
 }
+
 .tag button {
   height: 50%;
   width: 30%;
   padding: 0.2rem;
   border-radius: 2.5vh;
-  background-color: #ffffff;
-  color: #44236f;
-  border: #44236f solid 2px;
+  background-color: var(--bg-card);
+  color: var(--text-main);
+  border: var(--text-subtle) solid 2px;
   font-size: 1rem;
   cursor: pointer;
 }
+.tag .selected {
+  background-color: var(--bg-button-hover);
+}
+
+/* modal edit */
 #editModalOverlay {
   position: fixed;
   top: 0;
@@ -176,22 +199,25 @@ input::-webkit-inner-spin-button {
 }
 
 #editModalBox {
-  background: #fff;
+  background: var(--bg-card);
   padding: 1.5rem;
   border-radius: 10px;
   width: 90%;
   max-width: 400px;
   text-align: center;
-  box-shadow: 0 0 12px rgba(0, 0, 0, 0.2);
+  box-shadow: var(--shadow);
+  color: var(--text-main);
 }
 
 #editModalBox input {
   width: 90%;
   padding: 0.7rem;
   margin-top: 1rem;
-  border: 1px solid #ccc;
+  border: 1px solid var(--border-color);
   border-radius: 6px;
   font-size: 1rem;
+  background-color: var(--bg-main);
+  color: var(--text-main);
 }
 
 .prompt-buttons {
@@ -205,10 +231,11 @@ input::-webkit-inner-spin-button {
   font-size: 1rem;
   border: none;
   border-radius: 6px;
-  background-color: #b388eb;
+  background-color: var(--bg-button);
   color: white;
   cursor: pointer;
 }
+
 #editModalOverlay.show {
   display: flex;
 }
