@@ -9,11 +9,11 @@
 
     <link rel="stylesheet" href="styles/base.css" />
     <link rel="stylesheet" href="styles/navbar.css" />
-
     <link rel="stylesheet" href="styles/past.css" />
     <link rel="stylesheet" href="styles/display.css" />
     <link rel="stylesheet" href="styles/in&exp.css" />
     <link rel="stylesheet" href="styles/settings.css" />
+    <link rel="stylesheet" href="styles/exform.css" />
     <link rel="stylesheet" href="styles/theme.css" />
     <link rel="stylesheet" href="styles/responsive.css" />
     <link
@@ -52,7 +52,6 @@
         <a href="#e">Expense</a>
       </div>
     </div>
-
     <div class="container">
       <div class="home" id="h">
         <button class="add">
@@ -121,7 +120,6 @@
           </div>
         </div>
       </div>
-
       <div class="income" id="i">
         <div class="amt" id="inAmt">
           <p>Add Amount :</p>
@@ -211,11 +209,9 @@
     </div>
 
     <div id="set-modal">
+      <span class="close" onclick="closeModal()">&#10006;</span>
       <div class="set-page">
-        <span class="close" onclick="closeModal()">&#10006;</span>
-        <p style="position: absolute; top: 8%; left: 30%; font-size: 3rem">
-          Settings
-        </p>
+        <p>Settings</p>
         <section class="settings-section">
           <h2>Appearance</h2>
           <label id="mode-box">

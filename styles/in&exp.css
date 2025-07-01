@@ -7,7 +7,7 @@
 
 #inAmt {
   top: 3vh;
-  font-size: 30px;
+  font-size: 1.5rem;
   height: 30%;
 }
 
@@ -64,7 +64,7 @@
   font-size: 1rem;
   text-align: center;
   padding: 0.5rem;
-  color: var(--text-main);
+  color: var(--text-subtle);
 }
 
 .exDiv #t {
@@ -176,6 +176,7 @@
   scrollbar-width: none;
   z-index: 1;
   background-color: var(--bg-main);
+  align-content: start;
 }
 
 .inDiv button,

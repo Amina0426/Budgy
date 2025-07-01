@@ -8,7 +8,6 @@
   border-radius: 5px;
   font-size: 2.5rem;
 }
-
 #overlay1,
 #set-modal {
   height: 100vh;
@@ -19,33 +18,34 @@
   left: 0;
   z-index: 9999;
 }
-
 .set-page {
+  display: flex;
+  flex-direction: column;
   background-color: var(--bg-main);
   color: var(--text-main);
   text-align: center;
-  font-size: 2rem;
-  height: 100%;
+  font-size: 1.5rem;
+  gap: 0.5rem;
+  padding: 20px 10px;
+  height: calc(100vh - 7vh);
   align-content: center;
   overflow-y: auto;
   position: relative;
+  top: 7vh;
 }
-
 .set-page input {
   height: 1.5rem;
   width: 1.5rem;
   background-color: var(--text-main);
   color: var(--text-light);
 }
-
 .settings-title {
   font-size: 2.5rem;
   margin-bottom: 1.5rem;
   color: var(--text-main);
 }
-
 .settings-section {
-  margin: 1.2rem auto;
+  margin: 0.8rem auto;
   padding: 1rem;
   width: 90%;
   background-color: var(--bg-box);
@@ -53,13 +53,11 @@
   box-shadow: var(--shadow);
   text-align: left;
 }
-
 .settings-section h2 {
   font-size: 1.2rem;
   margin-bottom: 0.6rem;
   color: var(--text-main);
 }
-
 .settings-section label,
 .settings-section p {
   display: flex;
@@ -68,12 +66,10 @@
   margin: 0.6rem 0;
   font-size: 1rem;
 }
-
 #mode-box {
   justify-content: flex-start;
   gap: 1rem;
 }
-
 .settings-section input[type="number"] {
   padding: 0.4rem;
   border-radius: 6px;
@@ -82,7 +78,6 @@
   width: 50%;
   background-color: var(--input-bg);
 }
-
 .settings-section button {
   margin: 0.4rem 0;
   padding: 0.5rem 1rem;
@@ -93,7 +88,6 @@
   font-size: 1rem;
   cursor: pointer;
 }
-
 .settings-section button:hover {
   background-color: var(--accent-hover);
 }
