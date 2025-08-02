@@ -68,21 +68,25 @@
 }
 @media screen and (min-width: 768px) {
   .nav {
-    font-size: 2rem;
-    height: 12vh;
+    font-size: 1.4rem;
+    height: 10vh;
   }
   .home,
   .expenses,
   .income {
-    font-size: 2.5rem;
-  }
-  .home .display {
-    margin-top: 8%;
+    font-size: 2rem;
   }
   .amt input,
   #income {
     width: 35%;
     font-size: 3.8rem;
+  }
+  #inAmt {
+    justify-content: space-evenly;
+    height: 25%;
+  }
+  .historylist {
+    height: 65%;
   }
   #tagInput {
     width: 35%;
@@ -119,13 +123,17 @@
   .inDiv p {
     width: 30%;
     text-align: center;
-    font-size: 2rem;
+    font-size: 1.8rem;
   }
   .exDiv p {
     width: 30%;
-    height: 100%;
+    height: auto;
     text-align: center;
     font-size: 2rem;
+  }
+  .pDiv-content {
+    display: flex;
+    flex-direction: column;
   }
   .inDiv #date,
   .exDiv #t,
@@ -166,7 +174,6 @@
   }
   .inDiv {
     gap: 4rem;
-    height: 20%;
   }
   .bill-img {
     right: 10%;
@@ -185,21 +192,30 @@
     font-size: 2.8rem;
   }
   .nav {
-    height: 11vh;
-  }
-  .container {
-    height: 93vh;
-  }
-  .home {
-    height: 89vh;
-  }
-  .p-header {
-    height: 10%;
-    margin-bottom: 1%;
+    height: 10vh;
+    font-size: 1.2rem;
   }
   .home .add {
-    margin-top: 5px;
-    margin-bottom: 0;
-    font-size: larger;
+    width: 25%;
+    height: 15%;
+    font-size: 1.3rem;
+  }
+  .home .display {
+    position: relative;
+    height: 70%;
+    justify-content: flex-start;
+    font-size: 1.5rem;
+    gap: 0.2rem;
+  }
+  .summary {
+    position: absolute;
+    bottom: 0;
+  }
+  .summary-card {
+    font-size: 1.2rem;
+    padding: 4px 4px;
+  }
+  .p-header {
+    margin-bottom: 1%;
   }
 }

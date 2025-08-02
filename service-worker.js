@@ -1,4 +1,4 @@
-const CACHE_NAME = "expense-cache-v4.6";
+const CACHE_NAME = "expense-cache-v4.7";
 self.addEventListener("install", (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
