@@ -63,6 +63,8 @@ canvas {
 }
 
 .summary {
+  height: 40%;
+  padding: 25px 0px;
   color: var(--text-main);
   display: flex;
   flex-direction: column;

@@ -1,4 +1,4 @@
-const CACHE_NAME = "expense-cache-v4.7";
+const CACHE_NAME = "expense-cache-v5.0.0";
 self.addEventListener("install", (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
@@ -36,22 +36,16 @@ self.addEventListener("fetch", (event) => {
   if (url.protocol !== "http:" && url.protocol !== "https:") return;
 
   event.respondWith(
-    fetch(event.request)
-      .then((networkResponse) => {
-        const responseClone = networkResponse.clone();
-
-        caches.open(CACHE_NAME).then((cache) => {
-          cache.put(event.request, responseClone).catch((err) => {
-            console.warn("Failed to cache:", event.request.url, err);
+    caches.match(event.request).then((cachedResponse) => {
+      const networkFetch = fetch(event.request)
+        .then((networkResponse) => {
+          caches.open(CACHE_NAME).then((cache) => {
+            cache.put(event.request, networkResponse.clone());
           });
-        });
-
-        return networkResponse;
-      })
-      .catch(() =>
-        caches
-          .match(event.request)
-          .then((response) => response || caches.match("./index.html"))
-      )
+          return networkResponse;
+        })
+        .catch(() => cachedResponse || caches.match("./index.html"));
+      return cachedResponse || networkFetch;
+    })
   );
 });

@@ -168,10 +168,14 @@ function displayExpense() {
   });
 
   currList.innerHTML = "";
-  currExpenses.forEach((expense) => {
-    let li = document.createElement("div");
-    li.classList.add("exDiv");
-    li.innerHTML = `<p> Rs.${expense.amount}</p> 
+  let batchSize = 30;
+  let renderedCount = 0;
+  function renderCurrBatch() {
+    const slice = currExpenses.slice(renderedCount, renderedCount + batchSize);
+    slice.forEach((expense) => {
+      let li = document.createElement("div");
+      li.classList.add("exDiv");
+      li.innerHTML = `<p> Rs.${expense.amount}</p> 
         <p id="date">${formatDate(expense.date)}</p>
         <span id="t">${expense.tag}</span>
          ${expense.img ? `<img src="${expense.img}" class="bill-img">` : ""}
@@ -181,8 +185,21 @@ function displayExpense() {
          <button onclick="deleteExpense(${expense.realIndex})">Delete</button>
          <button onclick="addPic(${expense.realIndex})">Add Bill</button>
          </div>`;
-    currList.appendChild(li);
-  });
+      currList.appendChild(li);
+    });
+    renderedCount += slice.length;
+    if (renderedCount < currExpenses.length) {
+      let loadMore = document.createElement("button");
+      loadMore.textContent = "Load More";
+      loadMore.classList.add("load-more");
+      loadMore.onclick = () => {
+        loadMore.remove();
+        renderCurrBatch();
+      };
+      currList.appendChild(loadMore);
+    }
+  }
+  renderCurrBatch();
 
   past.innerHTML = "";
 
@@ -204,11 +221,19 @@ function displayExpense() {
 
       let monthContent = document.createElement("div");
       monthContent.classList.add("pDiv-content", "hidden");
+      monthDiv.appendChild(monthContent);
 
-      pastExpByMonth[month].forEach((expense, index) => {
-        let li = document.createElement("div");
-        li.classList.add("exDiv");
-        li.innerHTML = `<p> Rs.${expense.amount}</p> 
+      liHeader.addEventListener("click", () => {
+        document.querySelectorAll(".pDiv-content").forEach((div) => {
+          if (div !== monthContent) div.classList.add("hidden");
+        });
+        monthContent.classList.toggle("hidden");
+
+        if (!monthContent.dataset.loaded) {
+          pastExpByMonth[month].forEach((expense, index) => {
+            let li = document.createElement("div");
+            li.classList.add("exDiv");
+            li.innerHTML = `<p> Rs.${expense.amount}</p> 
             <p id="date">${formatDate(expense.date)}</p>
             <span id="t">${expense.tag}</span>
              ${expense.img ? `<img src="${expense.img}" class="bill-img">` : ""}
@@ -222,18 +247,14 @@ function displayExpense() {
              })">Delete</button>
              <button onclick="addPic(${expense.realIndex})">Add Bill</button>
              </div>`;
-        monthContent.appendChild(li);
+            monthContent.appendChild(li);
+          });
+          monthContent.dataset.loaded = "true";
+        }
       });
-      monthDiv.appendChild(monthContent);
       past.appendChild(monthDiv);
-
-      liHeader.addEventListener("click", () => {
-        document.querySelectorAll(".pDiv-content").forEach((div) => {
-          if (div !== monthContent) div.classList.add("hidden");
-        });
-        monthContent.classList.toggle("hidden");
-      });
     });
+
   document.querySelectorAll("#menu").forEach((btn) => {
     btn.addEventListener("click", (e) => {
       e.stopPropagation();

@@ -79,7 +79,7 @@
   .amt input,
   #income {
     width: 35%;
-    font-size: 3.8rem;
+    font-size: 2rem;
   }
   #inAmt {
     justify-content: space-evenly;
@@ -103,8 +103,13 @@
   .tags p {
     top: 5%;
   }
+  .tag {
+    justify-content: space-evenly;
+    gap: 2rem;
+  }
   .tag button {
     font-size: 1.5rem;
+    width: 20%;
   }
   .curr {
     display: flex;
@@ -186,6 +191,10 @@
   }
 }
 @media screen and (min-width: 1000px) {
+  .amt input,
+  #income {
+    width: 20%;
+  }
   .exDiv,
   .inDiv {
     height: 19%;
