@@ -140,6 +140,14 @@ function addExpenses() {
 }
 function displayExpense() {
   const currList = document.querySelector(".curr");
+  currList.addEventListener("click", (e) => {
+    if (e.target.classList.contains("menu")) {
+      e.stopPropagation();
+      closeAllDropdowns();
+      const dropdown = e.target.nextElementSibling;
+      dropdown.classList.toggle("hidden");
+    }
+  });
   const past = document.querySelector(".past");
   if (!currList || !past) return;
 
@@ -237,7 +245,7 @@ function displayExpense() {
             <p id="date">${formatDate(expense.date)}</p>
             <span id="t">${expense.tag}</span>
              ${expense.img ? `<img src="${expense.img}" class="bill-img">` : ""}
-             <button id="menu">&#x22EE;</button>
+             <button class="menu">&#x22EE;</button>
              <div class="dd hidden">
              <button onclick="edit('expenses',${
                expense.realIndex
@@ -254,15 +262,6 @@ function displayExpense() {
       });
       past.appendChild(monthDiv);
     });
-
-  document.querySelectorAll("#menu").forEach((btn) => {
-    btn.addEventListener("click", (e) => {
-      e.stopPropagation();
-      closeAllDropdowns();
-      const dropdown = btn.nextElementSibling;
-      dropdown.classList.toggle("hidden");
-    });
-  });
 }
 function formatDate(iso) {
   const d = new Date(iso);
@@ -324,6 +323,14 @@ function addIncome() {
 }
 function displayIncome() {
   let incList = document.querySelector(".incList");
+  incList.addEventListener("click", (e) => {
+    if (e.target.classList.contains("menu")) {
+      e.stopPropagation();
+      closeAllDropdowns();
+      const dropdown = e.target.nextElementSibling;
+      dropdown.classList.toggle("hidden");
+    }
+  });
   let incomes = JSON.parse(localStorage.getItem("incomes")) || [];
   incList.innerHTML = "";
 
@@ -332,20 +339,12 @@ function displayIncome() {
     li.classList.add("inDiv");
     li.innerHTML = `<p>Rs. ${income.amount}</p> 
         <p id="date">${income.date}</p>  
-         <button id="menu">&#x22EE;</button>
+         <button class="menu">&#x22EE;</button>
          <div class="dd hidden">
          <button onclick="edit('incomes',${index})">Edit</button>
          <button onclick="deleteInc(${index})">Delete</button>
          </div>`;
     incList.appendChild(li);
-  });
-  document.querySelectorAll("#menu").forEach((btn) => {
-    btn.addEventListener("click", (e) => {
-      e.stopPropagation();
-      closeAllDropdowns();
-      const dropdown = btn.nextElementSibling;
-      dropdown.classList.toggle("hidden");
-    });
   });
 }
 function deleteInc(index) {

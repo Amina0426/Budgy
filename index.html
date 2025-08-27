@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="styles/past.css" />
     <link rel="stylesheet" href="styles/display.css" />
     <link rel="stylesheet" href="styles/in&exp.css" />
+    <link rel="stylesheet" href="styles/edit.css" />
     <link rel="stylesheet" href="styles/settings.css" />
     <link rel="stylesheet" href="styles/exform.css" />
     <link rel="stylesheet" href="styles/theme.css" />
@@ -158,6 +159,7 @@
       </div>
     </div>
 
+    <!-- image -->
     <div
       id="fullImageView"
       style="
@@ -208,6 +210,7 @@
       <img id="fullImg" src="" style="max-width: 100%; max-height: 100%" />
     </div>
 
+    <!--settings-->
     <div id="set-modal">
       <span class="close" onclick="closeModal()">&#10006;</span>
       <div class="set-page">
@@ -240,12 +243,13 @@
 
         <section class="settings-section">
           <h2>About</h2>
-          <p>Version: 1.0.0</p>
+          <p>Version: 5.0.1</p>
           <p>Made by Amina</p>
         </section>
       </div>
     </div>
 
+    <!--edit-->
     <div id="editModalOverlay">
       <div id="editModalBox">
         <h2>Edit Entry</h2>
@@ -258,6 +262,6 @@
       </div>
     </div>
 
-    <script src="script.js"></script>
+    <script type="module" src="./js/main.js"></script>
   </body>
 </html>

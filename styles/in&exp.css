@@ -80,7 +80,7 @@
   white-space: nowrap;
 }
 
-#menu {
+.menu {
   cursor: pointer;
   color: var(--text-subtle);
   background-color: var(--bg-card);
@@ -92,7 +92,7 @@
   top: 5%;
 }
 
-.inDiv #menu {
+.inDiv .menu {
   height: 100%;
   width: calc(100% - 80% - 1rem);
   position: static;
