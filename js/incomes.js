@@ -1,4 +1,4 @@
-import { saveItem, getItem } from "./storage.js";
+import { addIncomeEntry, getIncomes, deleteIncomeAt } from "./storage.js";
 import { popMssg } from "./home.js";
 import { track } from "./charts.js";
 import { closeAllDropdowns } from "./utils.js";
@@ -20,9 +20,7 @@ export function addIncome() {
       date: new Date().toISOString(),
     };
 
-    let incomes = getItem("incomes");
-    incomes.unshift(income);
-    saveItem("incomes", incomes);
+    addIncomeEntry(income);
 
     incIn.value = "";
     displayIncome();
@@ -43,7 +41,7 @@ export function displayIncome() {
     }
   });
 
-  let incomes = getItem("incomes");
+  let incomes = getIncomes();
   if (incomes.length === 0) {
     incList.innerHTML = `<div class="empty-placeholder">No incomes added yet.</div>`;
     return;
@@ -66,12 +64,8 @@ export function displayIncome() {
 }
 
 export function deleteInc(index) {
-  let incomes = getItem("incomes");
-  if (index >= 0 && index < incomes.length) {
-    incomes.splice(index, 1);
-    saveItem("incomes", incomes);
-    displayIncome();
-  }
+  deleteIncomeAt(index);
+  displayIncome();
 }
 
 // helper for date formatting (keeps consistent with expenses.js)

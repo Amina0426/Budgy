@@ -1,4 +1,9 @@
-import { saveItem, getItem } from "./storage.js";
+import {
+  deleteExpenseAt,
+  addExpense,
+  updateExpenseAt,
+  getExpenses,
+} from "./storage.js";
 import { popMssg } from "./home.js";
 import { closeAllDropdowns } from "./utils.js";
 import { selectedTag } from "./tags.js";
@@ -9,7 +14,6 @@ let addBtn = document.querySelector("#add");
 let tags = document.querySelectorAll(".tagel");
 
 export function addExpenses() {
-  console.log("clicked");
   const amount = input.value;
   let tagIn = document.querySelector("#tagInput");
 
@@ -18,7 +22,6 @@ export function addExpenses() {
     tagIn.style.visibility = "hidden";
     tagIn.value = "";
   }
-  console.log(amount, " , ", tagIn);
 
   if (amount <= 0 || !selectedTag.value) {
     popMssg("Enter a valid amount and select a tag!");
@@ -31,9 +34,7 @@ export function addExpenses() {
     date: new Date().toISOString(),
   };
 
-  let expenses = getItem("expenses");
-  expenses.unshift(expense);
-  saveItem("expenses", expenses);
+  addExpense(expense);
 
   input.value = "";
   tags.forEach((tag) => tag.classList.remove("selected"));
@@ -55,7 +56,7 @@ export function displayExpense() {
     }
   });
 
-  let expenses = getItem("expenses");
+  let expenses = getExpenses();
   if (expenses.length === 0) {
     currList.innerHTML = `<div class="empty-placeholder">Start adding Your expenses to view here.</div>`;
     past.innerHTML = "";
@@ -179,13 +180,7 @@ export function displayExpense() {
     });
 }
 export function deleteExpense(index) {
-  let expenses = getItem("expenses");
-
-  if (index >= 0 && index < expenses.length) {
-    expenses.splice(index, 1);
-  }
-
-  saveItem("expenses", expenses);
+  deleteExpenseAt(index);
   displayExpense();
 }
 export function addPic(index) {
@@ -199,9 +194,7 @@ export function addPic(index) {
     if (file) {
       const reader = new FileReader();
       reader.onload = (e) => {
-        const expenses = getItem("expenses");
-        expenses[index].img = e.target.result;
-        saveItem("expenses", expenses);
+        updateExpenseAt(index, { img: e.target.result });
         displayExpense();
       };
       reader.readAsDataURL(file);
