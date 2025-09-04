@@ -1,12 +1,12 @@
-const CACHE_NAME = "expense-cache-v5.0.2";
+const CACHE_NAME = "expense-cache-v5.0.3";
 self.addEventListener("install", (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
       return cache.addAll([
         "./",
         "./index.html",
-        "./style-v1.css",
-        "./script.js",
+        "./styles/base.css",
+        "./js/main.js",
         "./manifest.json",
         "./icons/icon-192x192.png",
         "./icons/icon-512x512.png",

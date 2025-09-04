@@ -1,9 +1,14 @@
 import { displayExpense } from "./expenses.js";
 import { displayIncome } from "./incomes.js";
-import { getItem, saveItem } from "./storage.js";
+import {
+  getExpenses,
+  getIncomes,
+  updateExpenseAt,
+  updateIncomeAt,
+} from "./storage.js";
 
 export function edit(type, index) {
-  let data = getItem(type === "expenses" ? "expenses" : "incomes");
+  let data = type == "expenses" ? getExpenses() : getIncomes();
 
   const item = data[index];
   if (!item) {
@@ -31,22 +36,19 @@ export function edit(type, index) {
   function onSave() {
     const amt = amountInput.value.trim();
     if (amt === "" || isNaN(Number(amt))) return alert("Invalid amount");
-    data[index].amount = Number(amt);
+    const updatedItem = { ...item, amount: Number(amt) };
 
     if (type === "expenses") {
       const tag = tagInput.value.trim();
       if (tag === "") return alert("Tag cannot be empty");
-      data[index].tag = tag;
-    }
-
-    saveItem(type === "expenses" ? "expenses" : "incomes", data);
-    cleanup();
-
-    if (type === "expenses") {
+      updatedItem.tag = tag;
+      updateExpenseAt(index, updatedItem);
       displayExpense();
     } else {
+      updateIncomeAt(index, updatedItem);
       displayIncome();
     }
+    cleanup();
   }
 
   function onCancel() {

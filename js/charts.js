@@ -1,8 +1,8 @@
-import { getItem } from "./storage.js";
+import { getExpenses, getIncomes } from "./storage.js";
 
 export function track() {
-  const exp = getItem("expenses");
-  const inc = getItem("incomes");
+  const exp = getExpenses("expenses");
+  const inc = getIncomes("incomes");
 
   const totalInc = inc.reduce((sum, i) => sum + Number(i.amount), 0);
   const totalExp = exp.reduce((sum, e) => sum + Number(e.amount), 0);
