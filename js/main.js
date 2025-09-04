@@ -7,8 +7,10 @@ import { track } from "./charts.js";
 import { viewImg } from "./images.js";
 import { closeAllDropdowns } from "./utils.js";
 import { toggleMode } from "./settings.js";
+import { initData } from "./storage.js";
 
 function initiaLoad() {
+  initData();
   const nav = document.querySelectorAll("a");
   const box = document.querySelector(".container");
   const sections = document.querySelectorAll("#h,#e,#i");

@@ -35,11 +35,10 @@ export function addExpenses() {
   };
 
   addExpense(expense);
-
-  input.value = "";
-  tags.forEach((tag) => tag.classList.remove("selected"));
   displayExpense();
   popMssg(`Rs.${expense.amount} - ${expense.tag} added!`);
+  input.value = "";
+  tags.forEach((tag) => tag.classList.remove("selected"));
   document.querySelector("#tagInput").style.visibility = "hidden";
 }
 export function displayExpense() {
