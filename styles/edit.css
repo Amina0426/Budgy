@@ -3,7 +3,7 @@
   top: 0;
   left: 0;
   height: 100vh;
-  width: 100vw;
+  width: 100%;
   background: rgba(0, 0, 0, 0.6);
   display: none;
   justify-content: center;
@@ -18,7 +18,7 @@
   max-width: 400px;
   text-align: center;
   box-shadow: var(--shadow);
-  color: var(--text-main);
+  color: var(--text-card);
 }
 #editModalBox input {
   display: block;

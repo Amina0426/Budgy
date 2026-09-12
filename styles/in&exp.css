@@ -1,20 +1,60 @@
-#inBtn {
-  height: 2.4rem;
-  width: 5.5rem;
-  font-size: 1.2rem;
-  margin-top: 1rem;
+#inAmt {
+  background-color: var(--bg-box);
+  color: var(--text-box);
+  border-radius: 1rem;
+  box-shadow: var(--shadow);
+  padding: 1.5rem;
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+#inAmt:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
 }
 
-#inAmt {
-  top: 3vh;
-  font-size: 1.5rem;
-  height: 30%;
+#inAmt p {
+  margin: 0;
 }
 
 #income {
-  font-size: 2rem;
+  font-size: 1.4rem;
   height: 3rem;
-  width: 9rem;
+  width: 50%;
+  text-align: center;
+  border-radius: 0.6rem;
+  border: 2px solid var(--text-subtle);
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  transition:
+    border 0.2s ease,
+    box-shadow 0.2s ease;
+}
+#income:focus {
+  border-color: var(--bg-button-hover);
+  box-shadow: 0 0 6px var(--bg-button-hover);
+  outline: none;
+}
+
+#inBtn {
+  padding: 0.3rem 1.3rem;
+  font-size: 1rem;
+  border-radius: 2rem;
+  border: none;
+  background: linear-gradient(135deg, var(--bg-button), var(--bg-button-hover));
+  color: white;
+  cursor: pointer;
+  box-shadow: var(--shadow);
+  transition: transform 0.2s ease;
+}
+#inBtn:hover {
+  transform: scale(1.05);
 }
 
 .inDiv,
@@ -26,6 +66,7 @@
   align-content: flex-start;
   flex-direction: column;
   background-color: var(--bg-card);
+  color: var(--text-card);
   border-radius: 5px;
   margin: 1%;
   margin-left: 2.3%;
@@ -41,6 +82,7 @@
   width: 95%;
   flex-wrap: nowrap;
   align-items: center;
+  justify-content: space-between;
 }
 .exDiv {
   margin: 0;
@@ -51,7 +93,7 @@
   width: 40%;
   font-size: 1.5rem;
   padding: 1%;
-  color: var(--text-subtle);
+  color: var(--text-card);
   text-align: left;
 }
 .exDiv p {
@@ -64,7 +106,7 @@
   font-size: 1rem;
   text-align: center;
   padding: 0.5rem;
-  color: var(--text-subtle);
+  color: var(--text-card);
 }
 
 .exDiv #t {
@@ -75,14 +117,14 @@
   min-width: 4rem;
   max-width: max-content;
   border-radius: 999px;
-  background-color: var(--text-accent);
-  color: var(--bg-card);
+  background-color: var(--bg-button-hover);
+  color: var(--text-nav);
   white-space: nowrap;
 }
 
 .menu {
   cursor: pointer;
-  color: var(--text-subtle);
+  color: var(--text-card);
   background-color: var(--bg-card);
   width: 2rem;
   font-size: 1.5rem;
@@ -103,7 +145,7 @@
   height: auto;
   width: 5.5rem;
   top: 30%;
-  left: 50%;
+  right: 5%;
   background-color: var(--bg-button-hover);
   border-radius: 5px;
   z-index: 10;
@@ -122,7 +164,7 @@
   background: none;
   cursor: pointer;
   width: 100%;
-  color: var(--text-subtle);
+  color: var(--text-button);
   margin: 0.3rem;
   font-size: 1rem;
 }
@@ -139,13 +181,12 @@
 .historylist {
   width: 90%;
   height: 60%;
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   box-shadow: var(--shadow);
   border-radius: 5px;
   padding: 2%;
-  margin-top: 3rem;
   background-color: var(--bg-box);
-  color: var(--text-main);
+  color: var(--text-box);
 }
 
 .incList {
@@ -163,7 +204,7 @@
 .curr {
   width: 95%;
   height: 94%;
-  padding-bottom: 3rem;
+  padding: 0.5rem 0 3rem;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 0.5rem;
@@ -176,13 +217,14 @@
   scrollbar-width: none;
   z-index: 1;
   background-color: var(--bg-main);
+  color: var(--text-main);
   align-content: start;
 }
 
 .inDiv button,
 .exDiv button {
   width: 15%;
-  font-size: 2rem;
+  font-size: 1.8rem;
   height: auto;
 }
 
@@ -192,4 +234,128 @@
   position: absolute;
   top: 50%;
   right: 4%;
+}
+
+.expenses {
+  color: var(--text-main);
+  position: relative;
+}
+
+.curr-page {
+  width: 95%;
+  height: 94%;
+  display: flex;
+  flex-direction: column;
+  border-radius: 5px;
+  background-color: var(--bg-main);
+  box-shadow: var(--shadow);
+  margin: 1%;
+  overflow-y: auto;
+  transition: flex 0.3s ease;
+  scrollbar-width: none;
+  color: var(--text-main);
+}
+
+.curr-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.6rem 1rem;
+  background-color: var(--bg-card);
+  color: var(--text-card);
+  border-radius: 5px 5px 0 0;
+  font-size: 1rem;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
+.filter-container {
+  position: relative;
+}
+
+.search-toggle {
+  display: none;
+}
+
+.filter-btn {
+  background-color: var(--bg-button);
+  border: none;
+  color: var(--text-card);
+  border-radius: 5px;
+  padding: 0.3rem 0.8rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.filter-dropdown {
+  position: absolute;
+  right: 0;
+  top: 110%;
+  display: none;
+  flex-direction: column;
+  background-color: var(--bg-card);
+  border-radius: 5px;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  color: var(--text-card);
+}
+
+.filter-dropdown.show {
+  display: flex;
+}
+
+.filter-dropdown button {
+  background: none;
+  border: none;
+  padding: 0.5rem 1rem;
+  text-align: left;
+  cursor: pointer;
+  color: inherit;
+  font-size: 0.9rem;
+}
+
+.filter-dropdown button:hover {
+  background-color: var(--bg-nav);
+  color: var(--text-nav);
+}
+
+.img-count-badge {
+  position: absolute;
+  top: 75%;
+  right: 0%;
+
+  background: #000;
+  color: white;
+
+  font-size: 10px;
+
+  width: 18px;
+  height: 18px;
+
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  z-index: 5;
+}
+#imgCounter {
+  position: absolute;
+
+  top: 20px;
+  left: 20px;
+
+  color: white;
+
+  font-size: 14px;
+
+  z-index: 20;
+
+  background: rgba(0, 0, 0, 0.5);
+
+  padding: 4px 10px;
+
+  border-radius: 20px;
 }

@@ -8,6 +8,45 @@ import { popMssg } from "./home.js";
 import { closeAllDropdowns } from "./utils.js";
 import { selectedTag } from "./tags.js";
 import { formatDate } from "./utils.js";
+import { track } from "./charts.js";
+
+function getExpenseImages(expense) {
+  if (Array.isArray(expense.images) && expense.images.length > 0) {
+    return expense.images
+      .map((image) =>
+        typeof image === "string" ? image : image?.image || image?.src || "",
+      )
+      .filter(Boolean);
+  }
+  return expense.img ? [expense.img] : [];
+}
+
+function escapeImageAttribute(value) {
+  return String(value)
+    .replaceAll("&", "&amp;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;");
+}
+
+function renderExpenseImages(expense, realIndex) {
+  const images = getExpenseImages(expense);
+  if (images.length === 0) return "";
+
+  const encodedImages = encodeURIComponent(JSON.stringify(images));
+  return `<div class="bill-images-wrapper">
+    <div class="bill-images">
+      ${images
+        .map(
+          (image, imageIndex) => `
+            <img src="${escapeImageAttribute(image)}" class="bill-img" data-expense-index="${realIndex}" data-image-index="${imageIndex}" data-images="${encodedImages}" alt="Expense receipt">
+          `,
+        )
+        .join("")}
+    </div>
+    <span class="img-count-badge">${images.length}</span>
+  </div>`;
+}
 
 let input = document.querySelector("#in");
 let addBtn = document.querySelector("#add");
@@ -36,51 +75,82 @@ export function addExpenses() {
 
   addExpense(expense);
   displayExpense();
+  track();
   popMssg(`Rs.${expense.amount} - ${expense.tag} added!`);
   input.value = "";
+  selectedTag.value = "";
   tags.forEach((tag) => tag.classList.remove("selected"));
   document.querySelector("#tagInput").style.visibility = "hidden";
 }
-export function displayExpense() {
+export function displayExpense(searchQuery) {
   const currList = document.querySelector(".curr");
   const past = document.querySelector(".past");
   if (!currList || !past) return;
 
-  currList.addEventListener("click", (e) => {
-    if (e.target.classList.contains("menu")) {
-      e.stopPropagation();
-      closeAllDropdowns();
-      const dropdown = e.target.nextElementSibling;
-      dropdown.classList.toggle("hidden");
-    }
-  });
+  if (currList.dataset.expenseMenuHandlerAttached !== "true") {
+    currList.dataset.expenseMenuHandlerAttached = "true";
+    currList.addEventListener("click", (e) => {
+      if (e.target.classList.contains("menu")) {
+        e.stopPropagation();
+        closeAllDropdowns();
+        const dropdown = e.target.nextElementSibling;
+        dropdown.classList.toggle("hidden");
+      }
+    });
+  }
 
-  let expenses = getExpenses();
-  if (expenses.length === 0) {
+  const expenses = getExpenses();
+  const searchInput = document.getElementById("expense-search");
+  const query = String(searchQuery ?? searchInput?.value ?? "")
+    .trim()
+    .toLowerCase();
+  const filteredExpenses = query
+    ? expenses.filter((expense) => {
+        const amount = Number(expense.amount);
+        const searchableValues = [
+          expense.tag || "",
+          String(expense.amount ?? ""),
+          Number.isFinite(amount) ? amount.toFixed(2) : "",
+          formatDate(expense.date),
+          expense.date || "",
+        ];
+        return searchableValues.some((value) =>
+          String(value).toLowerCase().includes(query),
+        );
+      })
+    : expenses;
+
+  if (filteredExpenses.length === 0) {
     currList.innerHTML = `<div class="empty-placeholder">Start adding Your expenses to view here.</div>`;
     past.innerHTML = "";
+    if (query) {
+      currList.innerHTML = `<div class="empty-placeholder">No expenses found.</div>`;
+    }
     return;
   }
 
-  const curr = new Date().getMonth();
+  const now = new Date();
+  const currentYear = now.getFullYear();
+  const currentMonth = now.getMonth();
   const pastExpByMonth = {};
   const currExpenses = [];
 
-  expenses.forEach((expense, realIndex) => {
+  filteredExpenses.forEach((expense) => {
+    const realIndex = expenses.indexOf(expense);
     const date = new Date(expense.date);
+    const year = date.getFullYear();
     const month = date.getMonth();
-    const monthKey = date.toLocaleString("default", {
-      month: "short",
-      year: "numeric",
-    });
+    const monthKey = `${year}-${String(month + 1).padStart(2, "0")}`;
 
-    if (month === curr) {
+    if (query) {
+      currExpenses.push({ ...expense, realIndex });
+    } else if (year === currentYear && month === currentMonth) {
       currExpenses.push({ ...expense, realIndex });
     } else {
       if (!pastExpByMonth[monthKey]) {
-        pastExpByMonth[monthKey] = [];
+        pastExpByMonth[monthKey] = { year, month, expenses: [] };
       }
-      pastExpByMonth[monthKey].push({ ...expense, realIndex });
+      pastExpByMonth[monthKey].expenses.push({ ...expense, realIndex });
     }
   });
 
@@ -98,7 +168,7 @@ export function displayExpense() {
         <p> Rs.${expense.amount}</p> 
         <p id="date">${formatDate(expense.date)}</p>
         <span id="t">${expense.tag}</span>
-        ${expense.img ? `<img src="${expense.img}" class="bill-img">` : ""}
+        ${renderExpenseImages(expense, expense.realIndex)}
         <button class="menu">&#x22EE;</button>
         <div class="dd hidden">
           <button onclick="edit('expenses',${expense.realIndex})">Edit</button>
@@ -124,42 +194,45 @@ export function displayExpense() {
   // Render past grouped expenses
   past.innerHTML = "";
   Object.keys(pastExpByMonth)
-    .sort((a, b) => new Date(b) - new Date(a))
-    .forEach((month) => {
+    .sort((a, b) => b.localeCompare(a))
+    .forEach((monthKey) => {
       let monthDiv = document.createElement("div");
       monthDiv.classList.add("pastDiv");
+      const monthGroup = pastExpByMonth[monthKey];
 
-      const total = pastExpByMonth[month].reduce(
+      const total = monthGroup.expenses.reduce(
         (sum, exp) => sum + parseFloat(exp.amount),
-        0
+        0,
       );
 
       let liHeader = document.createElement("div");
       liHeader.classList.add("pDiv-header");
-      liHeader.textContent = `${month} Total: Rs.${total.toFixed(2)}`;
+      const groupDate = new Date(monthGroup.year, monthGroup.month, 1);
+      liHeader.textContent = `${groupDate.toLocaleString("en-US", {
+        month: "short",
+        year: "numeric",
+      })} Total: Rs.${total.toFixed(2)}`;
       monthDiv.appendChild(liHeader);
 
       let monthContent = document.createElement("div");
       monthContent.classList.add("pDiv-content", "hidden");
       monthDiv.appendChild(monthContent);
 
-      liHeader.addEventListener("click", () => {
+      const openMonthGroup = () => {
         document.querySelectorAll(".pDiv-content").forEach((div) => {
-          if (div !== monthContent) div.classList.add("hidden");
+          if (div !== monthContent && !query) div.classList.add("hidden");
         });
         monthContent.classList.toggle("hidden");
 
         if (!monthContent.dataset.loaded) {
-          pastExpByMonth[month].forEach((expense) => {
+          monthGroup.expenses.forEach((expense) => {
             let li = document.createElement("div");
             li.classList.add("exDiv");
             li.innerHTML = `
               <p> Rs.${expense.amount}</p> 
               <p id="date">${formatDate(expense.date)}</p>
               <span id="t">${expense.tag}</span>
-              ${
-                expense.img ? `<img src="${expense.img}" class="bill-img">` : ""
-              }
+              ${renderExpenseImages(expense, expense.realIndex)}
               <button class="menu">&#x22EE;</button>
               <div class="dd hidden">
                 <button onclick="edit('expenses',${
@@ -174,30 +247,49 @@ export function displayExpense() {
           });
           monthContent.dataset.loaded = "true";
         }
-      });
+      };
+      liHeader.addEventListener("click", openMonthGroup);
       past.appendChild(monthDiv);
     });
 }
 export function deleteExpense(index) {
   deleteExpenseAt(index);
   displayExpense();
+  track();
 }
 export function addPic(index) {
   let input = document.createElement("input");
   input.type = "file";
   input.accept = "image/*";
   input.capture = "environment";
+  input.multiple = true;
   input.onchange = () => {
-    const file = input.files[0];
+    const files = Array.from(input.files || []);
+    if (files.length === 0) return;
 
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        updateExpenseAt(index, { img: e.target.result });
-        displayExpense();
-      };
-      reader.readAsDataURL(file);
-    }
+    const readers = files.map(
+      (file) =>
+        new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = () => resolve(reader.result);
+          reader.onerror = reject;
+          reader.readAsDataURL(file);
+        }),
+    );
+
+    Promise.all(readers).then((newImages) => {
+      const expense = getExpenses()[index];
+      if (!expense) return;
+
+      const existingImages = Array.isArray(expense.images)
+        ? [...expense.images]
+        : expense.img
+          ? [expense.img]
+          : [];
+      updateExpenseAt(index, { images: [...existingImages, ...newImages] });
+      displayExpense();
+      track();
+    });
   };
   input.click();
 }

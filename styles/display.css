@@ -1,86 +1,44 @@
-.home .display {
-  color: var(--text-main);
-  height: 65%;
-  width: 85%;
-  border: solid var(--text-main);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 1rem;
-  padding: 10px;
+  width: 90%;
+  padding: 0 10px;
 }
 
-.donut-canvas-wrapper {
-  height: 50%;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-}
-
-.par-wrap {
-  position: relative;
-  width: 225px;
-  height: 225px;
-}
-
-canvas {
-  width: 225px;
-  height: 225px;
-}
-
-.canvas-center {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 75px;
-  height: 75px;
-  transform: translate(-50%, -50%);
-  border-radius: 50%;
-  background: var(--bg-main);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-  box-shadow: inset 0 0 4px var(--border-light);
-  pointer-events: none;
-}
-
-.tooltip {
-  position: absolute;
-  background: var(--bg-main);
-  border: 1px solid var(--border-light);
-  padding: 6px 10px;
-  border-radius: 6px;
-  font-size: 1rem;
-  pointer-events: none;
-  z-index: 10;
-  white-space: nowrap;
-}
-
-.hidden {
-  display: none;
-}
-
-.summary {
-  height: 40%;
-  padding: 25px 0px;
-  color: var(--text-main);
+/* Cards */
+.summary-card {
+  background-color: var(--bg-box);
+  color: var(--text-box);
+  padding: 1rem;
+  border-radius: 0.5rem;
+  text-align: center;
+  font-size: 1.3rem;
+  box-shadow: var(--shadow);
   display: flex;
   flex-direction: column;
-  width: 100%;
-  border: 1px solid var(--border-medium);
-  border-radius: 0.5rem;
-  box-shadow: var(--shadow);
-}
-
-.summary-card {
-  font-size: 1.5rem;
-  padding: 10px 12px;
-  border-bottom: 1px solid var(--border-medium);
-  background-color: var(--bg-main);
-  display: flex;
   justify-content: center;
   align-items: center;
-  transition: background-color 0.2s ease;
+}
+
+/* Progress Bar */
+.progress-bar-wrapper {
+  width: 100%;
+  height: 10px;
+  background-color: #e0e0e0;
+  border-radius: 6px;
+  margin-top: 8px;
+}
+
+.progress-bar {
+  height: 10px;
+  width: 0%;
+  border-radius: 6px;
+  transition: width 0.3s ease;
+  background-color: #4caf50; /* green default */
+}
+
+.muted {
+  color: #888;
+  font-style: italic;
 }

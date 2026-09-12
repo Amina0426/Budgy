@@ -7,6 +7,7 @@
   transition: height 0.3s ease;
   background-color: var(--bg-main);
   z-index: 2;
+  color: var(--text-main);
 }
 #past-section.open {
   height: 45vh;
@@ -21,11 +22,11 @@
   align-items: center;
   gap: 1rem;
   border-radius: 5px;
-  border: solid var(--text-subtle);
-  color: var(--text-subtle);
+  border: solid var(--border-color);
+  color: var(--text-card);
   background-color: var(--bg-card);
   box-shadow: var(--shadow);
-  font-size: 1.6rem;
+  font-size: 1.1rem;
   z-index: 3;
   transition: bottom 0.3s ease;
 }
@@ -54,6 +55,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  color: var(--text-card);
 }
 .pDiv-content.hidden {
   max-height: 0;
@@ -72,6 +74,7 @@
   position: relative;
   z-index: 2;
   background-color: var(--bg-main);
+  color: var(--text-main);
 }
 .arrow-caret {
   transition: transform 0.3s ease;

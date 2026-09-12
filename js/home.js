@@ -3,26 +3,27 @@ import { addExpenses } from "./expenses.js";
 export function home(homeBtn) {
   if (!homeBtn) return;
 
+  const exForm = document.querySelector("#overlay1");
+  const addBtn = document.querySelector("#add");
+  if (!exForm || !addBtn) return;
+
+  if (homeBtn.dataset.expenseHandlersAttached === "true") return;
+  homeBtn.dataset.expenseHandlersAttached = "true";
+
   homeBtn.addEventListener("click", () => {
-    const exForm = document.querySelector("#overlay1");
-    const addBtn = document.querySelector("#add");
-    if (!exForm || !addBtn) return;
-
     exForm.style.display = "block";
+  });
 
-    // Close button
-    const closeBtn = document.querySelector(".close");
-    if (closeBtn) {
-      closeBtn.addEventListener("click", () => {
-        exForm.style.display = "none";
-      });
-    }
-
-    // Add expense button hides form
-    addBtn.addEventListener("click", () => {
+  const closeBtn = document.querySelector(".close");
+  if (closeBtn) {
+    closeBtn.addEventListener("click", () => {
       exForm.style.display = "none";
-      addExpenses();
     });
+  }
+
+  addBtn.addEventListener("click", () => {
+    exForm.style.display = "none";
+    addExpenses();
   });
 }
 

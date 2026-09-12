@@ -6,11 +6,13 @@ import { addIncome, displayIncome } from "./incomes.js";
 import { track } from "./charts.js";
 import { viewImg } from "./images.js";
 import { closeAllDropdowns } from "./utils.js";
-import { toggleMode } from "./settings.js";
+import { monthlyLimit } from "./settings.js";
 import { initData } from "./storage.js";
+import { filter } from "./filter.js";
 
 function initiaLoad() {
   initData();
+  monthlyLimit();
   const nav = document.querySelectorAll("a");
   const box = document.querySelector(".container");
   const sections = document.querySelectorAll("#h,#e,#i");
@@ -37,10 +39,12 @@ function initiaLoad() {
     displayIncome();
   }
 
-  if (document.querySelector("#donutCanvas")) {
+  if (document.querySelector(".summary-grid")) {
     track();
   }
-
+  if (document.querySelector("#expense-search")) {
+    filter();
+  }
   viewImg();
 }
 

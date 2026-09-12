@@ -1,157 +1,76 @@
 import { getExpenses, getIncomes } from "./storage.js";
 
+function getAmount(value) {
+  const amount = Number(value);
+  return Number.isFinite(amount) ? amount : 0;
+}
+
+function isCurrentMonth(dateValue, now) {
+  const date = new Date(dateValue);
+  return (
+    !Number.isNaN(date.getTime()) &&
+    date.getFullYear() === now.getFullYear() &&
+    date.getMonth() === now.getMonth()
+  );
+}
+
+function setBudgetState(usedEl, remainingEl, progressEl, expenses) {
+  if (!usedEl || !remainingEl || !progressEl) return;
+
+  const budget = Number(localStorage.getItem("monthlyBudget"));
+  if (!Number.isFinite(budget) || budget <= 0) {
+    usedEl.innerText = "Budget not set";
+    remainingEl.innerText = "Budget not set";
+    progressEl.style.width = "0%";
+    progressEl.style.backgroundColor = "#ccc";
+    usedEl.classList.add("muted");
+    remainingEl.classList.add("muted");
+    return;
+  }
+
+  const now = new Date();
+  const currentMonthExpenses = expenses
+    .filter((expense) => isCurrentMonth(expense.date, now))
+    .reduce((sum, expense) => sum + getAmount(expense.amount), 0);
+  const usedPercent = (currentMonthExpenses / budget) * 100;
+  const displayedPercent = Math.min(Math.max(usedPercent, 0), 100);
+  const remainingBudget = Math.max(budget - currentMonthExpenses, 0);
+
+  usedEl.innerText = `${usedPercent.toFixed(1)}%`;
+  remainingEl.innerText = remainingBudget.toFixed(2);
+  progressEl.style.width = `${displayedPercent}%`;
+  progressEl.style.backgroundColor =
+    usedPercent < 80 ? "green" : usedPercent <= 100 ? "orange" : "red";
+  usedEl.classList.remove("muted");
+  remainingEl.classList.remove("muted");
+}
+
 export function track() {
-  const exp = getExpenses("expenses");
-  const inc = getIncomes("incomes");
+  const expenses = getExpenses();
+  const incomes = getIncomes();
+  const totalIncome = incomes.reduce(
+    (sum, income) => sum + getAmount(income.amount),
+    0,
+  );
+  const totalExpense = expenses.reduce(
+    (sum, expense) => sum + getAmount(expense.amount),
+    0,
+  );
 
-  const totalInc = inc.reduce((sum, i) => sum + Number(i.amount), 0);
-  const totalExp = exp.reduce((sum, e) => sum + Number(e.amount), 0);
-  const balance = totalInc - totalExp;
+  const incomeTotalEl = document.getElementById("incomeTotal");
+  const expenseTotalEl = document.getElementById("expenseTotal");
+  const balanceTotalEl = document.getElementById("balanceTotal");
 
-  const incTotalEl = document.getElementById("incomeTotal");
-  const expTotalEl = document.getElementById("expenseTotal");
-  const balTotalEl = document.getElementById("balanceTotal");
-
-  if (incTotalEl) incTotalEl.innerText = totalInc;
-  if (expTotalEl) expTotalEl.innerText = totalExp;
-  if (balTotalEl) balTotalEl.innerText = balance;
-
-  drawDonutCanvas(exp);
-}
-
-function drawDonutCanvas(expenses) {
-  const canvas = document.getElementById("donutCanvas");
-  const tooltip = document.getElementById("canvasTooltip");
-  if (!canvas || !tooltip) return;
-
-  const ctx = canvas.getContext("2d");
-  const rect = canvas.getBoundingClientRect();
-
-  const tagData = getTopFrequentTagsWithOthers(expenses);
-  const total = tagData.reduce((sum, [_, value]) => sum + value, 0);
-
-  const colors = [
-    "#a78bfa",
-    "#7dd3fc",
-    "#fb7185",
-    "#facc15",
-    "#4ade80",
-    "#9ca3af",
-  ];
-  const centerX = canvas.width / 2;
-  const centerY = canvas.height / 2;
-  const radius = 100;
-  const innerRadius = 55;
-
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-  if (tagData.length === 0 && total === 0) {
-    ctx.fillStyle = "#d1d5db"; // gray
-    ctx.beginPath();
-    ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
-    ctx.fill();
-
-    // cut donut hole
-    ctx.globalCompositeOperation = "destination-out";
-    ctx.beginPath();
-    ctx.arc(centerX, centerY, innerRadius, 0, 2 * Math.PI);
-    ctx.fill();
-    ctx.globalCompositeOperation = "source-over";
-
-    // Optional: show "No data" tooltip on hover
-    canvas.onmousemove = () => {
-      tooltip.textContent = "No data";
-      tooltip.classList.remove("hidden");
-    };
-    canvas.onmouseleave = () => tooltip.classList.add("hidden");
-
-    return; // stop the rest of the drawing
-  }
-  let startAngle = -Math.PI / 2;
-  const slices = [];
-
-  for (let i = 0; i < tagData.length; i++) {
-    const [tag, value] = tagData[i];
-    const angle = (value / total) * 2 * Math.PI;
-    const endAngle = startAngle + angle;
-    const color = colors[i % colors.length];
-
-    ctx.beginPath();
-    ctx.moveTo(centerX, centerY);
-    ctx.arc(centerX, centerY, radius, startAngle, endAngle);
-    ctx.closePath();
-    ctx.fillStyle = color;
-    ctx.fill();
-
-    slices.push({
-      start: startAngle,
-      end: endAngle,
-      label: `${tag}: ₹${value}`,
-      color,
-    });
-
-    startAngle = endAngle;
+  if (incomeTotalEl) incomeTotalEl.innerText = totalIncome.toFixed(2);
+  if (expenseTotalEl) expenseTotalEl.innerText = totalExpense.toFixed(2);
+  if (balanceTotalEl) {
+    balanceTotalEl.innerText = (totalIncome - totalExpense).toFixed(2);
   }
 
-  // cut donut hole
-  ctx.globalCompositeOperation = "destination-out";
-  ctx.beginPath();
-  ctx.arc(centerX, centerY, innerRadius, 0, 2 * Math.PI);
-  ctx.fill();
-  ctx.globalCompositeOperation = "source-over";
-
-  // hover detection
-  canvas.onmousemove = (e) => {
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    const dx = x - centerX;
-    const dy = y - centerY;
-    const dist = Math.sqrt(dx * dx + dy * dy);
-    const angle = Math.atan2(dy, dx);
-
-    if (dist < innerRadius || dist > radius) {
-      tooltip.classList.add("hidden");
-      return;
-    }
-
-    const normAngle = angle < -Math.PI / 2 ? angle + 2 * Math.PI : angle;
-    for (let slice of slices) {
-      if (normAngle >= slice.start && normAngle < slice.end) {
-        tooltip.textContent = slice.label;
-        tooltip.style.left = `10px`;
-        tooltip.style.top = `10px`;
-        tooltip.classList.remove("hidden");
-        return;
-      }
-    }
-    tooltip.classList.add("hidden");
-  };
-
-  canvas.onmouseleave = () => {
-    tooltip.classList.add("hidden");
-  };
-}
-
-export function getTopFrequentTagsWithOthers(expenses, topN = 5) {
-  const tagCounts = {};
-  const tagTotals = {};
-
-  for (let item of expenses) {
-    const tag = item.tag || "Other";
-    const amt = Math.abs(Number(item.amount));
-    tagCounts[tag] = (tagCounts[tag] || 0) + 1;
-    tagTotals[tag] = (tagTotals[tag] || 0) + amt;
-  }
-
-  const sortedTags = Object.entries(tagCounts).sort((a, b) => b[1] - a[1]);
-  const topTags = sortedTags.slice(0, topN);
-  const others = sortedTags.slice(topN);
-
-  let result = topTags.map(([tag]) => [tag, tagTotals[tag]]);
-  if (others.length > 0) {
-    const othersTotal = others.reduce((sum, [tag]) => sum + tagTotals[tag], 0);
-    result.push(["Others", othersTotal]);
-  }
-
-  return result;
+  setBudgetState(
+    document.getElementById("budgetUsed"),
+    document.getElementById("budgetRemaining"),
+    document.getElementById("budgetProgress"),
+    expenses,
+  );
 }

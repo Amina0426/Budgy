@@ -1,29 +1,29 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#b388eb" />
+    <meta name="theme-color" content="#0f4c5c" />
     <meta name="description" content="An expense tracker" />
     <title>Budgy.</title>
 
-    <link rel="stylesheet" href="styles/base.css" />
-    <link rel="stylesheet" href="styles/navbar.css" />
-    <link rel="stylesheet" href="styles/past.css" />
-    <link rel="stylesheet" href="styles/display.css" />
-    <link rel="stylesheet" href="styles/in&exp.css" />
-    <link rel="stylesheet" href="styles/edit.css" />
-    <link rel="stylesheet" href="styles/settings.css" />
-    <link rel="stylesheet" href="styles/exform.css" />
-    <link rel="stylesheet" href="styles/theme.css" />
-    <link rel="stylesheet" href="styles/responsive.css" />
+    <link rel="stylesheet" href="./styles/base.css" />
+    <link rel="stylesheet" href="./styles/navbar.css" />
+    <link rel="stylesheet" href="./styles/past.css" />
+    <link rel="stylesheet" href="./styles/display.css" />
+    <link rel="stylesheet" href="./styles/in&exp.css" />
+    <link rel="stylesheet" href="./styles/edit.css" />
+    <link rel="stylesheet" href="./styles/settings.css" />
+    <link rel="stylesheet" href="./styles/exform.css" />
+    <link rel="stylesheet" href="./styles/theme.css" />
+    <link rel="stylesheet" href="./styles/responsive.css" />
     <link
       href="https://fonts.googleapis.com/css2?family=Inter&family=Poppins&family=Quicksand&display=swap"
       rel="stylesheet"
     />
 
-    <link rel="manifest" href="manifest.json" />
-    <link rel="icon" href="icons/favicon.ico" type="image/x-icon" />
+    <link rel="manifest" href="./manifest.json" />
+    <link rel="icon" href="./icons/favicon.ico" type="image/x-icon" />
   </head>
   <body>
     <div class="navbar">
@@ -53,31 +53,16 @@
         <a href="#e">Expense</a>
       </div>
     </div>
+
     <div class="container">
       <div class="home" id="h">
-        <button class="add">
-          <span>Add your Spend</span>
-          <span id="plus">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="36"
-              height="36"
-              fill="white"
-              viewBox="0 0 24 24"
-              stroke-width="3"
-              stroke="white"
-            >
-              <path
-                d="M8 1a.5.5 0 0 1 .5.5v6.5H15a.5.5 0 0 1 0 1H8.5V15a.5.5 0 0 1-1 0V9.5H1a.5.5 0 0 1 0-1h6.5V1.5A.5.5 0 0 1 8 1z"
-              />
-            </svg>
-          </span>
-        </button>
+        <div class="add-expense-wrapper">
+          <button class="add subtle-btn"><span>Add Your Spend</span></button>
+        </div>
+
         <div id="overlay1">
           <div class="exForm">
-            <div class="close">
-              <span class="close">&#10006;</span>
-            </div>
+            <div class="close"><span class="close">&#10006;</span></div>
             <div class="amt">
               <p>Add Your Expense :</p>
               <input type="number" id="in" autofocus />
@@ -98,29 +83,31 @@
             <button id="add">Add</button>
           </div>
         </div>
-        <div class="display">
-          <p>At a Glance</p>
-          <div class="donut-canvas-wrapper">
-            <div class="par-wrap">
-              <canvas id="donutCanvas" width="250" height="250"></canvas>
-              <div class="canvas-center" id="canvasCenter"></div>
-              <div class="tooltip hidden" id="canvasTooltip"></div>
+
+        <div class="summary-grid">
+          <div class="summary-card">
+            &#128176; Income: &#8377;<span id="incomeTotal">0</span>
+          </div>
+          <div class="summary-card">
+            &#128722; Expense: &#8377;<span id="expenseTotal">0</span>
+          </div>
+          <div class="summary-card">
+            &#128188; Balance: &#8377;<span id="balanceTotal">0</span>
+          </div>
+          <div class="summary-card">
+            &#128202; Budget Used: <span id="budgetUsed">0%</span>
+            <div class="progress-bar-wrapper">
+              <div id="budgetProgress" class="progress-bar"></div>
             </div>
           </div>
-
-          <div class="summary">
-            <div class="summary-card">
-              💰 Income: ₹<span id="incomeTotal">0</span>
-            </div>
-            <div class="summary-card">
-              🛒 Expense: ₹<span id="expenseTotal">0</span>
-            </div>
-            <div class="summary-card">
-              💼 Balance: ₹<span id="balanceTotal">0</span>
-            </div>
+          <div class="summary-card">
+            &#128188; Remaining Budget: &#8377;<span id="budgetRemaining"
+              >0</span
+            >
           </div>
         </div>
       </div>
+
       <div class="income" id="i">
         <div class="amt" id="inAmt">
           <p>Add Amount :</p>
@@ -132,16 +119,43 @@
           <div class="incList"></div>
         </div>
       </div>
+
       <div class="expenses" id="e">
-        <div class="curr"></div>
+        <div class="curr-page">
+          <div class="curr-header">
+            <span>Current Expenses</span>
+            <div class="filter-container">
+              <button
+                class="search-toggle"
+                id="expense-search-toggle"
+                type="button"
+                aria-label="Search expenses"
+                aria-expanded="false"
+              >
+                &#128269;
+              </button>
+              <input
+                class="filter-btn"
+                id="expense-search"
+                type="search"
+                placeholder="Search expenses"
+                aria-label="Search expenses"
+              />
+            </div>
+          </div>
+          <div class="curr" id="curr-list">
+            <!-- dynamically added expense cards go here -->
+          </div>
+        </div>
+
         <div id="past-section">
           <div class="p-header" onclick="togglePast()">
             <span>Past Totals</span>
             <svg
               id="arrow"
               class="arrow-caret"
-              width="2rem"
-              height="2rem"
+              width="1.4rem"
+              height="1.4rem"
               viewBox="0 0 24 24"
             >
               <path
@@ -159,7 +173,6 @@
       </div>
     </div>
 
-    <!-- image -->
     <div
       id="fullImageView"
       style="
@@ -173,91 +186,187 @@
         justify-content: center;
         align-items: center;
         z-index: 9999;
+        overflow: hidden;
       "
     >
+      <div
+        id="imgCounter"
+        style="
+          position: absolute;
+          top: 15px;
+          left: 15px;
+          z-index: 10002;
+
+          background: rgba(0, 0, 0, 0.5);
+          color: white;
+
+          padding: 6px 12px;
+
+          border-radius: 20px;
+
+          font-size: 14px;
+          font-weight: bold;
+        "
+      >
+        1/1
+      </div>
       <button
         id="delImg"
         style="
           position: absolute;
           top: 15px;
           right: 15px;
-          z-index: 10001;
+          z-index: 10002;
+
           height: 3rem;
           width: 3rem;
+
           font-size: 2rem;
+
           background-color: #f44336;
+
+          border: none;
+          border-radius: 50%;
+
+          display: flex;
+          justify-content: center;
+          align-items: center;
         "
         onclick="delImg()"
+        aria-label="Delete image"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          width="32"
-          height="48"
+          width="24"
+          height="24"
           fill="none"
-          stroke="currentColor"
+          stroke="white"
           stroke-width="2"
-          viewbox="0 0 24 24"
+          viewBox="0 0 24 24"
           stroke-linecap="round"
           stroke-linejoin="round"
-          class="feather feather-trash"
         >
-          <polyline points="3 6 5 6 21 6" />
-          <path d="M19 6l-1 14H6L5 6" />
-          <path d="M10 11v6M14 11v6" />
-          <path d="M9 6V4h6v2" />
+          <polyline points="3 6 5 6 21 6"></polyline>
+          <path d="M19 6l-1 14H6L5 6"></path>
+          <path d="M10 11v6"></path>
+          <path d="M14 11v6"></path>
+          <path d="M9 6V4h6v2"></path>
         </svg>
       </button>
-      <img id="fullImg" src="" style="max-width: 100%; max-height: 100%" />
+      <button
+        id="prevImgBtn"
+        style="
+          position: absolute;
+          left: 10px;
+          top: 50%;
+          transform: translateY(-50%);
+
+          z-index: 10002;
+
+          background: rgba(0, 0, 0, 0.5);
+          color: white;
+
+          border: none;
+
+          width: 45px;
+          height: 45px;
+
+          border-radius: 50%;
+
+          font-size: 28px;
+          cursor: pointer;
+        "
+        aria-label="Previous image"
+      >
+        &#8249;
+      </button>
+      <button
+        id="nextImgBtn"
+        style="
+          position: absolute;
+          right: 10px;
+          top: 50%;
+          transform: translateY(-50%);
+
+          z-index: 10002;
+
+          background: rgba(0, 0, 0, 0.5);
+          color: white;
+
+          border: none;
+
+          width: 45px;
+          height: 45px;
+
+          border-radius: 50%;
+
+          font-size: 28px;
+          cursor: pointer;
+        "
+        aria-label="Next image"
+      >
+        &#8250;
+      </button>
+      <img id="fullImg" src="" alt="Full expense image" />
     </div>
 
-    <!--settings-->
-    <div id="set-modal">
-      <span class="close" onclick="closeModal()">&#10006;</span>
-      <div class="set-page">
-        <p>Settings</p>
-        <section class="settings-section">
-          <h2>Appearance</h2>
-          <label id="mode-box">
-            <input type="checkbox" id="mode" onchange="toggleMode()" />
-            Dark Mode
-          </label>
-        </section>
-        <section class="settings-section">
-          <h2>Budget</h2>
-          <label>
-            Monthly Limit (₹):
+    <div id="set-modal" class="settings-overlay">
+      <div class="settings-panel">
+        <header class="settings-header">
+          <h1>Settings</h1>
+          <button class="close-btn" onclick="closeModal()">&#10006;</button>
+        </header>
+        <main class="settings-main">
+          <section class="settings-section">
+            <h2>Appearance</h2>
+            <label class="toggle">
+              <input type="checkbox" id="mode" onchange="toggleMode()" />
+              <span class="slider"></span
+              ><span class="label-text">Dark Mode</span>
+            </label>
+          </section>
+          <section class="settings-section">
+            <h2>Budget</h2>
+            <div class="input-group">
+              <label for="monthlyBudget">Monthly Limit (&#8377;)</label>
+              <input
+                type="number"
+                id="monthlyBudget"
+                placeholder="e.g. 5000"
+                class="input"
+              />
+              <button id="saveBudgetBtn">Save Budget</button>
+            </div>
+          </section>
+          <section class="settings-section">
+            <h2>Data</h2>
+            <button onclick="downloadData()">&#128230; Export Data</button>
+            <button onclick="importBackup()">Import Backup</button>
             <input
-              type="number"
-              id="monthlyBudget"
-              placeholder="e.g. 5000"
-              onchange="monthlyLimit()"
+              type="file"
+              id="importBackupInput"
+              accept="application/json,.json"
+              hidden
             />
-          </label>
-        </section>
-
-        <section class="settings-section">
-          <h2>Data</h2>
-          <button onclick="downloadData()">📦 Export Data</button>
-          <button onclick="resetApp()">🗑 Reset App</button>
-        </section>
-
-        <section class="settings-section">
-          <h2>About</h2>
-          <p>Version: 5.0.2</p>
-          <p>Made by Amina</p>
-        </section>
+            <button onclick="resetApp()">&#128465; Reset App</button>
+          </section>
+          <section class="settings-section about">
+            <p>Version 5.0.2</p>
+            <p>Made by Amina</p>
+          </section>
+        </main>
       </div>
     </div>
 
-    <!--edit-->
     <div id="editModalOverlay">
       <div id="editModalBox">
         <h2>Edit Entry</h2>
         <input type="number" id="editAmountInput" placeholder="Amount" />
         <input type="text" id="editTagInput" placeholder="Tag" />
+        <input type="date" id="editDateInput" />
         <div class="prompt-buttons">
-          <button id="editSaveBtn">Save</button>
-          <button id="editCancelBtn">Cancel</button>
+          <button id="editSaveBtn">Save</button
+          ><button id="editCancelBtn">Cancel</button>
         </div>
       </div>
     </div>

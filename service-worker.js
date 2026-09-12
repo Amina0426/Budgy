@@ -1,4 +1,4 @@
-const CACHE_NAME = "expense-cache-v5.1.0";
+const CACHE_NAME = "budgy-1.0.0";
 self.addEventListener("install", (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
@@ -12,7 +12,7 @@ self.addEventListener("install", (event) => {
         "./icons/icon-512x512.png",
         "./icons/favicon.ico",
       ]);
-    })
+    }),
   );
   self.skipWaiting();
 });
@@ -23,9 +23,9 @@ self.addEventListener("activate", (event) => {
       return Promise.all(
         cacheNames
           .filter((name) => name !== CACHE_NAME)
-          .map((name) => caches.delete(name))
+          .map((name) => caches.delete(name)),
       );
-    })
+    }),
   );
   self.clients.claim();
 });
@@ -48,6 +48,6 @@ self.addEventListener("fetch", (event) => {
         .catch(() => {
           return caches.match("./index.html");
         });
-    })
+    }),
   );
 });

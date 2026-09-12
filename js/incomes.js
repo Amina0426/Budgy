@@ -2,6 +2,7 @@ import { addIncomeEntry, getIncomes, deleteIncomeAt } from "./storage.js";
 import { popMssg } from "./home.js";
 import { track } from "./charts.js";
 import { closeAllDropdowns } from "./utils.js";
+import { formatDate } from "./utils.js";
 import { edit } from "./edit.js";
 
 export function addIncome() {
@@ -66,11 +67,7 @@ export function displayIncome() {
 export function deleteInc(index) {
   deleteIncomeAt(index);
   displayIncome();
+  track();
 }
 
-// helper for date formatting (keeps consistent with expenses.js)
-function formatDate(dateStr) {
-  const date = new Date(dateStr);
-  return date.toLocaleDateString();
-}
 window.deleteInc = deleteInc;
