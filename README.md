@@ -5,7 +5,7 @@
   <br />
   A simple, responsive personal finance tracker built with HTML, CSS, and Vanilla JavaScript.
   <br /><br />
-  <a href="https://amina0426.githubio.com">
+  <a href="https://amina0426.github.io/Budgy/">
     <img src="https://img.shields.io/badge/🚀_Live_Demo-Visit_Budgy-6366f1?style=for-the-badge" alt="Live Demo" />
   </a>
 </p>
