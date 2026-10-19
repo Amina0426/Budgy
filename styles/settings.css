@@ -134,6 +134,15 @@
 .settings-section button:hover {
   background-color: var(--bg-box-hover);
 }
+#logoutBtn {
+  background: var(--bg-button);
+  color: white;
+  width: 100%;
+  margin-top: 8px;
+  padding: 12px 0;
+  border-radius: 12px;
+  font-weight: 600;
+}
 
 .toggle {
   display: flex;

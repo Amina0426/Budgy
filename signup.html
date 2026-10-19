@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Signup | Budgy</title>
+    <link rel="stylesheet" href="styles/auth.css" />
+    <link rel="stylesheet" href="styles/theme.css" />
+    <script type="module">
+      import { auth } from "./firebase/config.js";
+      import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-auth.js";
+
+      document.documentElement.style.visibility = "hidden";
+
+      onAuthStateChanged(auth, (user) => {
+        if (user) {
+          window.location.replace("./index.html");
+        } else {
+          document.documentElement.style.visibility = "visible";
+        }
+      });
+    </script>
+  </head>
+  <body>
+    <div class="auth-container">
+      <h2>Create Account</h2>
+
+      <p class="error"></p>
+
+      <form id="signupForm" method="POST">
+        <input
+          type="text"
+          name="username"
+          placeholder="Choose username"
+          required
+        />
+        <input
+          id="signupEmail"
+          type="email"
+          name="email"
+          placeholder="Email"
+          required
+        />
+        <input
+          id="signupPassword"
+          type="password"
+          name="password"
+          placeholder="Choose password"
+          required
+        />
+        <button type="submit">Sign up</button>
+      </form>
+
+      <p style="margin-top: 1rem; font-size: 1.5rem">
+        Already have an account? <a href="signin.html">Signin</a>
+      </p>
+    </div>
+    <script type="module" src="./firebase/auth.js"></script>
+  </body>
+</html>

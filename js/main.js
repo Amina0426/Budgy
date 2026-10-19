@@ -9,9 +9,11 @@ import { closeAllDropdowns } from "./utils.js";
 import { monthlyLimit } from "./settings.js";
 import { initData } from "./storage.js";
 import { filter } from "./filter.js";
+import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { auth } from "../firebase/config.js";
 
-function initiaLoad() {
-  initData();
+async function initiaLoad() {
+  await initData();
   monthlyLimit();
   const nav = document.querySelectorAll("a");
   const box = document.querySelector(".container");
@@ -47,12 +49,20 @@ function initiaLoad() {
   }
   viewImg();
 }
+onAuthStateChanged(auth, async (user) => {
+  if (!user) return;
+  try {
+    await initiaLoad();
+  } catch (error) {
+    console.error("Failed to initialize Budgy: ", error);
+  }
+});
 
 // Close dropdowns globally
 document.addEventListener("click", closeAllDropdowns);
 
 // Initialize after all content is loaded
-window.addEventListener("load", initiaLoad);
+// window.addEventListener("load", initiaLoad);
 
 // Restore theme
 window.addEventListener("DOMContentLoaded", () => {

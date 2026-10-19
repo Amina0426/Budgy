@@ -9,7 +9,26 @@ import { closeAllDropdowns } from "./utils.js";
 import { selectedTag } from "./tags.js";
 import { formatDate } from "./utils.js";
 import { track } from "./charts.js";
+import { saveImage, deleteImage, getImage } from "./imageStorage.js";
+export async function loadExpenseImageThumbnails(root = document) {
+  const thumbnails = root.querySelectorAll(".bill-img[data-image-id]");
 
+  await Promise.all(
+    Array.from(thumbnails).map(async (thumbnail) => {
+      try {
+        const imageUrl = await getImage(thumbnail.dataset.imageId);
+
+        if (imageUrl && thumbnail.isConnected) {
+          thumbnail.src = imageUrl;
+        } else if (!imageUrl && thumbnail.isConnected) {
+          thumbnail.alt = "Receipt image unavailable on this device";
+        }
+      } catch (error) {
+        console.error("Could not load receipt thumbnail:", error);
+      }
+    }),
+  );
+}
 function getExpenseImages(expense) {
   if (Array.isArray(expense.images) && expense.images.length > 0) {
     return expense.images
@@ -30,16 +49,27 @@ function escapeImageAttribute(value) {
 }
 
 function renderExpenseImages(expense, realIndex) {
-  const images = getExpenseImages(expense);
+  const images = Array.isArray(expense.images) ? expense.images : [];
+
   if (images.length === 0) return "";
 
   const encodedImages = encodeURIComponent(JSON.stringify(images));
+
   return `<div class="bill-images-wrapper">
     <div class="bill-images">
       ${images
         .map(
-          (image, imageIndex) => `
-            <img src="${escapeImageAttribute(image)}" class="bill-img" data-expense-index="${realIndex}" data-image-index="${imageIndex}" data-images="${encodedImages}" alt="Expense receipt">
+          (imageId, imageIndex) => `
+            <img
+              src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs="
+              class="bill-img"
+              data-image-id="${escapeImageAttribute(imageId)}"
+              data-expense-index="${realIndex}"
+              data-image-index="${imageIndex}"
+              data-images="${encodedImages}"
+              alt="Expense receipt"
+              loading="lazy"
+            >
           `,
         )
         .join("")}
@@ -52,7 +82,7 @@ let input = document.querySelector("#in");
 let addBtn = document.querySelector("#add");
 let tags = document.querySelectorAll(".tagel");
 
-export function addExpenses() {
+export async function addExpenses() {
   const amount = input.value;
   let tagIn = document.querySelector("#tagInput");
 
@@ -73,7 +103,7 @@ export function addExpenses() {
     date: new Date().toISOString(),
   };
 
-  addExpense(expense);
+  await addExpense(expense);
   displayExpense();
   track();
   popMssg(`Rs.${expense.amount} - ${expense.tag} added!`);
@@ -251,46 +281,76 @@ export function displayExpense(searchQuery) {
       liHeader.addEventListener("click", openMonthGroup);
       past.appendChild(monthDiv);
     });
+  void loadExpenseImageThumbnails(document);
 }
-export function deleteExpense(index) {
-  deleteExpenseAt(index);
+export async function deleteExpense(index) {
+  await deleteExpenseAt(index);
   displayExpense();
   track();
 }
 export function addPic(index) {
-  let input = document.createElement("input");
+  const input = document.createElement("input");
+
   input.type = "file";
   input.accept = "image/*";
   input.capture = "environment";
   input.multiple = true;
-  input.onchange = () => {
-    const files = Array.from(input.files || []);
-    if (files.length === 0) return;
 
-    const readers = files.map(
-      (file) =>
-        new Promise((resolve, reject) => {
-          const reader = new FileReader();
-          reader.onload = () => resolve(reader.result);
-          reader.onerror = reject;
-          reader.readAsDataURL(file);
-        }),
+  input.onchange = async () => {
+    const files = Array.from(input.files || []).filter((file) =>
+      file.type.startsWith("image/"),
     );
 
-    Promise.all(readers).then((newImages) => {
-      const expense = getExpenses()[index];
-      if (!expense) return;
+    if (files.length === 0) return;
 
-      const existingImages = Array.isArray(expense.images)
-        ? [...expense.images]
-        : expense.img
-          ? [expense.img]
-          : [];
-      updateExpenseAt(index, { images: [...existingImages, ...newImages] });
+    const expense = getExpenses()[index];
+    if (!expense) return;
+
+    const existingImages = Array.isArray(expense.images)
+      ? [...expense.images]
+      : [];
+
+    // Limit each expense to 10 receipt images.
+    const remainingSlots = 10 - existingImages.length;
+
+    if (remainingSlots <= 0) {
+      alert("This expense already has 10 receipt images.");
+      return;
+    }
+
+    const filesToSave = files.slice(0, remainingSlots);
+    const newImageIds = [];
+
+    try {
+      // Save the actual image files in IndexedDB.
+      for (const file of filesToSave) {
+        const imageId = await saveImage(file);
+        newImageIds.push(imageId);
+      }
+
+      // Save only their IDs in Firestore.
+      await updateExpenseAt(index, {
+        images: [...existingImages, ...newImageIds],
+      });
+
       displayExpense();
       track();
-    });
+    } catch (error) {
+      console.error("Could not attach receipt images:", error);
+
+      // Remove locally saved files if the expense update failed.
+      await Promise.all(
+        newImageIds.map((id) =>
+          deleteImage(id).catch((cleanupError) =>
+            console.error("Image cleanup failed:", cleanupError),
+          ),
+        ),
+      );
+
+      alert("Could not attach receipt images. Please try again.");
+    }
   };
+
   input.click();
 }
 export function togglePast() {

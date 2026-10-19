@@ -12,46 +12,90 @@ export function toggleMode() {
   localStorage.setItem("theme", theme);
 }
 import { track } from "./charts.js";
-import { getExpenses, getIncomes, initData } from "./storage.js";
+import {
+  getExpenses,
+  getIncomes,
+  initData,
+  replaceAllData,
+  getMonthlyBudget,
+  saveMonthlyBudget,
+} from "./storage.js";
 import { popMssg } from "./home.js";
 
-export function monthlyLimit() {
+export async function monthlyLimit() {
   const budgetInput = document.getElementById("monthlyBudget");
   const saveBudgetBtn = document.getElementById("saveBudgetBtn");
+
   if (!budgetInput) return;
 
-  const saveBudget = () => {
-    localStorage.setItem("monthlyBudget", budgetInput.value);
-    track();
+  // Save changes to Firestore.
+  const saveBudget = async () => {
+    try {
+      await saveMonthlyBudget(budgetInput.value);
+      track();
+      popMssg("Monthly budget saved!");
+    } catch (error) {
+      console.error("Failed to save monthly budget:", error);
+      popMssg(error.message || "Could not save budget.");
+    }
   };
 
   if (saveBudgetBtn) {
     saveBudgetBtn.addEventListener("click", saveBudget);
   } else {
-    budgetInput.addEventListener("input", saveBudget);
+    budgetInput.addEventListener("change", saveBudget);
   }
 
-  const savedBudget = localStorage.getItem("monthlyBudget");
-  if (savedBudget !== null) budgetInput.value = savedBudget;
+  try {
+    // Load the budget from Firestore.
+    let savedBudget = await getMonthlyBudget();
+
+    // Migrate an existing localStorage budget if Firestore
+    // doesn't have one yet.
+    if (savedBudget === null) {
+      const oldBudget = localStorage.getItem("monthlyBudget");
+
+      if (oldBudget !== null && Number(oldBudget) > 0) {
+        savedBudget = await saveMonthlyBudget(oldBudget);
+      }
+    } else {
+      // Keep existing calculations working during migration.
+      localStorage.setItem("monthlyBudget", String(savedBudget));
+    }
+
+    budgetInput.value = savedBudget ?? "";
+    track();
+  } catch (error) {
+    console.error("Failed to load monthly budget:", error);
+    popMssg("Could not load your budget from Firestore.");
+  }
 }
-export function downloadData() {
-  const budgetValue = Number(localStorage.getItem("monthlyBudget"));
+export async function downloadData() {
+  const budget = await getMonthlyBudget();
   const data = {
-    budget:
-      Number.isFinite(budgetValue) && budgetValue > 0 ? budgetValue : null,
-    expenses: getExpenses(),
-    incomes: getIncomes(),
+    budget,
+
+    expenses: getExpenses().map(({ id, images, img, ...expense }) => ({
+      ...expense,
+      images: [],
+    })),
+
+    incomes: getIncomes().map(({ id, ...income }) => income),
   };
 
   const blob = new Blob([JSON.stringify(data, null, 2)], {
     type: "application/json",
   });
+
   const url = URL.createObjectURL(blob);
   const link = document.createElement("a");
+
   link.href = url;
   link.download = "finance-data.json";
   link.click();
-  URL.revokeObjectURL(url);
+
+  // Give the browser time to start downloading before releasing the URL.
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
 
 export function importBackup() {
@@ -68,6 +112,8 @@ async function restoreBackup(file) {
 
   try {
     const backup = JSON.parse(await file.text());
+
+    // Validate everything before modifying existing data.
     validateBackup(backup);
 
     if (
@@ -78,28 +124,34 @@ async function restoreBackup(file) {
       return;
     }
 
-    localStorage.setItem("expenses", JSON.stringify(backup.expenses));
-    localStorage.setItem("incomes", JSON.stringify(backup.incomes));
-    if (backup.budget === null) {
-      localStorage.removeItem("monthlyBudget");
-    } else {
-      localStorage.setItem("monthlyBudget", String(backup.budget));
-    }
-    const budgetInput = document.getElementById("monthlyBudget");
-    if (budgetInput) budgetInput.value = backup.budget ?? "";
+    // Replace the signed-in user's Firestore expenses and incomes.
+    // This also refreshes the in-memory caches.
+    await replaceAllData(backup.expenses, backup.incomes);
 
-    initData();
+    await saveMonthlyBudget(backup.budget);
+
+    // Update the budget input on screen.
+    const budgetInput = document.getElementById("monthlyBudget");
+
+    if (budgetInput) {
+      budgetInput.value = backup.budget ?? "";
+    }
+
+    // Refresh the displayed records.
     const [{ displayExpense }, { displayIncome }] = await Promise.all([
       import("./expenses.js"),
       import("./incomes.js"),
     ]);
+
     displayExpense();
     displayIncome();
     track();
+
     popMssg("Backup restored successfully!");
   } catch (error) {
     console.error("Failed to restore backup:", error);
-    popMssg(error.message || "Invalid backup file.");
+
+    popMssg(error.message || "Failed to restore backup.");
   }
 }
 

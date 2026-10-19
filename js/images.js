@@ -1,6 +1,7 @@
 import { displayExpense } from "./expenses.js";
 import { getExpenses, updateExpenseAt } from "./storage.js";
 import { track } from "./charts.js";
+import { getImage } from "./imageStorage.js";
 
 let currentImages = [];
 let currentIndex = 0;
@@ -12,14 +13,39 @@ function closeViewer() {
   if (fullImageView) fullImageView.style.display = "none";
 }
 
-function updateFullscreenImage() {
-  console.log("update full scren called");
+async function updateFullscreenImage() {
   const fullImg = document.getElementById("fullImg");
   const imgCounter = document.getElementById("imgCounter");
-  if (!fullImg || !imgCounter || currentImages.length === 0) return;
 
-  fullImg.src = currentImages[currentIndex];
-  imgCounter.textContent = `${currentIndex + 1}/${currentImages.length}`;
+  if (!fullImg || !imgCounter || currentImages.length === 0) {
+    return;
+  }
+
+  const imageId = currentImages[currentIndex];
+  const requestedIndex = currentIndex;
+
+  imgCounter.textContent = `${requestedIndex + 1}/${currentImages.length}`;
+
+  try {
+    const imageUrl = await getImage(imageId);
+
+    // Avoid displaying the wrong image if the user presses
+    // next or previous before the image finishes loading.
+    if (
+      currentImages[currentIndex] !== imageId ||
+      currentIndex !== requestedIndex
+    ) {
+      return;
+    }
+
+    if (imageUrl) {
+      fullImg.src = imageUrl;
+    } else {
+      console.error("Receipt image is missing from this device:", imageId);
+    }
+  } catch (error) {
+    console.error("Could not open receipt image:", error);
+  }
 }
 
 function openImage(target) {

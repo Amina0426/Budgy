@@ -5,11 +5,11 @@ import { closeAllDropdowns } from "./utils.js";
 import { formatDate } from "./utils.js";
 import { edit } from "./edit.js";
 
-export function addIncome() {
+export async function addIncome() {
   let incIn = document.querySelector("#income");
   let incAdd = document.querySelector("#inBtn");
 
-  incAdd.addEventListener("click", () => {
+  incAdd.addEventListener("click", async () => {
     let amt = incIn.value;
     if (amt <= 0) {
       popMssg("Enter a valid income amount!"); // using popup for consistency
@@ -21,7 +21,7 @@ export function addIncome() {
       date: new Date().toISOString(),
     };
 
-    addIncomeEntry(income);
+    await addIncomeEntry(income);
 
     incIn.value = "";
     displayIncome();
@@ -64,8 +64,8 @@ export function displayIncome() {
   });
 }
 
-export function deleteInc(index) {
-  deleteIncomeAt(index);
+export async function deleteInc(index) {
+  await deleteIncomeAt(index);
   displayIncome();
   track();
 }

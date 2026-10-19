@@ -24,6 +24,20 @@
 
     <link rel="manifest" href="./manifest.json" />
     <link rel="icon" href="./icons/favicon.ico" type="image/x-icon" />
+    <script type="module">
+      import { auth } from "./firebase/config.js";
+      import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-auth.js";
+
+      document.documentElement.style.visibility = "hidden";
+
+      onAuthStateChanged(auth, (user) => {
+        if (user) {
+          document.documentElement.style.visibility = "visible";
+        } else {
+          window.location.replace("./signin.html");
+        }
+      });
+    </script>
   </head>
   <body>
     <div class="navbar">
@@ -350,6 +364,9 @@
             />
             <button onclick="resetApp()">&#128465; Reset App</button>
           </section>
+          <section class="settings-section">
+            <button id="logoutBtn" onclick="logout()">Logout</button>
+          </section>
           <section class="settings-section about">
             <p>Version 5.0.2</p>
             <p>Made by Amina</p>
@@ -372,5 +389,6 @@
     </div>
 
     <script type="module" src="./js/main.js"></script>
+    <script type="module" src="./firebase/auth.js"></script>
   </body>
 </html>

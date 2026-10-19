@@ -55,7 +55,7 @@ export function edit(type, index) {
     cancelBtn.removeEventListener("click", onCancel);
   }
 
-  function onSave() {
+  async function onSave() {
     const amt = amountInput.value.trim();
     if (amt === "" || isNaN(Number(amt))) return alert("Invalid amount");
     const updatedItem = { ...item, amount: Number(amt) };
@@ -71,11 +71,11 @@ export function edit(type, index) {
       const tag = tagInput.value.trim();
       if (tag === "") return alert("Tag cannot be empty");
       updatedItem.tag = tag;
-      updateExpenseAt(index, updatedItem);
+      await updateExpenseAt(index, updatedItem);
       displayExpense();
       track();
     } else {
-      updateIncomeAt(index, updatedItem);
+      await updateIncomeAt(index, updatedItem);
       displayIncome();
       track();
     }
