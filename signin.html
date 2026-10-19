@@ -2,9 +2,14 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <meta name="theme-color" content="#0f4c5c" />
+    <meta name="description" content="An expense tracker" />
     <title>Signin | Budgy</title>
     <link rel="stylesheet" href="styles/auth.css" />
     <link rel="stylesheet" href="styles/theme.css" />
+    <link rel="manifest" href="./manifest.json" />
+    <link rel="icon" href="./icons/favicon.ico" type="image/x-icon" />
+
     <script type="module">
       import { auth } from "./firebase/config.js";
       import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-auth.js";
