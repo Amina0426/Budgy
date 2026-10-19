@@ -2,20 +2,19 @@
     "name": "Budgy.",
     "short_name": "Budgy.",
     "start_url": "./index.html",
-    "scope":".",
-    "id": "/",
+    "scope":"./",
     "display": "standalone",
     "background_color": "#f4f8f8",
     "theme_color": "#0f4c5c",
     "orientation": "portrait",
     "icons": [
         {
-            "src":"icons/icon-192x192.png",
+            "src":"./icons/icon-192x192.png",
             "sizes":"192x192",
             "type":"image/png"
         },
         {
-            "src":"icons/icon-512x512.png",
+            "src":"./icons/icon-512x512.png",
             "sizes":"512x512",
             "type":"image/png"
         }
